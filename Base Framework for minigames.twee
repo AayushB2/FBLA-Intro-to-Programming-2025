@@ -1,0 +1,59 @@
+:: StoryTitle
+Base Framework for minigames
+
+
+:: StoryData
+{
+  "ifid": "B50D29A5-69E3-42B6-8479-3798E37099BD",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "Start",
+  "zoom": 1
+}
+
+
+:: Checklist checking thing {"position":"700,175","size":"100,100"}
+<<print "Which two things match? Fruit, Vegetable, Chicken, Water, Soda">>
+<<set $Fruit = false>>
+<<set $Vegetable = false>>
+<<set $Chicken = false>>
+<<set $Water = false>>
+<<set $Soda = false>>
+
+<label><<checkbox "$Fruit" false true  >> Fruit?</label>
+<label><<checkbox "$Vegetable" false true  >> Vegetable?</label>
+<label><<checkbox "$Chicken" false true  >> Chicken?</label>
+<label><<checkbox "$Water" false true  >> Water?</label>
+<label><<checkbox "$Soda" false true  >> Soda?</label>
+
+
+<<button "Submit">> 
+	<<set $list = [$Fruit, $Vegetable, $Chicken, $Water, $Soda]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 2>>
+    	<<goto "message">>
+    <<else>>
+    	<<goto "Checklist checking thing">>
+    <</if>>
+<</button>>
+
+
+:: Start {"position":"550,175","size":"100,100"}
+Welcome to the Matching Minigame
+
+<<link "checklist" "Checklist checking thing">> <</link>>
+
+
+:: message {"position":"850,175","size":"100,100"}
+<<if $Water && $Soda === true>>
+	<<print "good job">>
+<<else>>
+	<<print "oops try again">>
+	<<link "matching" "Checklist checking thing">> <</link>>
+<</if>>
