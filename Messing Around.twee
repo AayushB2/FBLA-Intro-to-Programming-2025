@@ -1,0 +1,22 @@
+:: StoryTitle
+Messing Around
+
+
+:: StoryData
+{
+  "ifid": "563F14C1-DCFC-4BC0-BC9C-D99731EBDD25",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "GameMaster",
+  "zoom": 1
+}
+
+
+:: GameMaster [Opening-words] {"position":"575,175","size":"200,100"}
+Greetings player! Would you like to start the game?
+
+<<link "Start" "Start">> <</link>>
+
+
+:: Start [Welcome] {"position":"575,300","size":"100,100"}
+Welcome to the annual NC FBLA Carnival.
