@@ -1,0 +1,181 @@
+:: StoryTitle
+First Minigame Backup
+
+
+:: StoryData
+{
+  "ifid": "9A2A7FAA-A0AA-4659-BEA0-F8F57A562581",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "Trait Matching Start",
+  "zoom": 1
+}
+
+
+:: Final Answer Check {"position":"825,375","size":"100,100"}
+<<if $Compassion && $Decisiveness === true>>
+	<<nobr>>
+    	<<set $points += 200>>
+    <</nobr>>
+	<<print "Nice job! You Won!. You now have " + $points + " points!">>
+    <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $firstGameFailCount += 1>>
+    <<if $firstGameFailCount === 5>>
+    	<<nobr>>
+        	<<set $points += 100>>
+        <</nobr>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
+        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<else>>
+    	<<link "Try again" "Final Trait Matching Checklist">> <</link>>
+    <</if>>
+    <</nobr>>
+<</if>>
+
+
+:: Final Trait Matching Checklist {"position":"700,375","size":"100,100"}
+<<print "Which two things does a leader need most? Ego, Compassion, Micromanagement, Decisiveness, Inefficiency">>
+<<nobr>>
+<<set $Ego = false>>
+<<set $Compassion = false>>
+<<set $Micromanagement = false>>
+<<set $Decisiveness = false>>
+<<set $Inefficiency = false>>
+<</nobr>>
+<label><<checkbox "$Ego" false true  >> Ego?</label>
+<label><<checkbox "$Compassion" false true  >> Compassion?</label>
+<label><<checkbox "$Micromanagement" false true  >> Micromanagement?</label>
+<label><<checkbox "$Decisiveness" false true  >> Decisiveness?</label>
+<label><<checkbox "$Inefficiency" false true  >> Inefficiency?</label>
+
+<<button "Submit">> 
+	<<set $list = [$Ego, $Compassion, $Micromanagement, $Decisiveness, $Inefficiency]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 2>>
+    	<<goto "Final Answer Check">>
+    <<else>>
+    	<<goto "Final Trait Matching Checklist">>
+    <</if>>
+<</button>>
+
+
+:: First Answer Check {"position":"825,175","size":"100,100"}
+<<if $Empathy && $Integrity === true>>
+	<<print "Good job! You really know your stuff.">>
+    <<link "Next Question" "Second Trait Matching Checklist">> <</link>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $firstGameFailCount += 1>>
+    <<if $firstGameFailCount === 5>>
+    	<<nobr>>
+        	<<set $points += 100>>
+        <</nobr>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
+        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<else>>
+    	<<link "Try again" "First Trait Matching Checklist">> <</link>>
+    <</if>>
+    <</nobr>>
+<</if>>
+
+
+:: First Trait Matching Checklist {"position":"700,175","size":"100,100"}
+<<print "Which two things does a leader need most? Arrogance, Empathy, Dishonesty, Vanity, Integrity">>
+<<nobr>>
+  <<set $Arrogance = false>>
+  <<set $Empathy = false>>
+  <<set $Dishonesty = false>>
+  <<set $Vanity = false>>
+  <<set $Integrity = false>>
+<</nobr>>
+<label><<checkbox "$Arrogance" false true  >> Arrogance?</label>
+<label><<checkbox "$Empathy" false true  >> Empathy?</label>
+<label><<checkbox "$Dishonesty" false true  >> Dishonesty?</label>
+<label><<checkbox "$Vanity" false true  >> Vanity?</label>
+<label><<checkbox "$Integrity" false true  >> Integrity?</label>
+
+<<button "Submit">> 
+	<<set $list = [$Arrogance, $Empathy, $Dishonesty, $Vanity, $Integrity]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 2>>
+    	<<goto "First Answer Check">>
+    <<else>>
+    	<<goto "First Trait Matching Checklist">>
+    <</if>>
+<</button>>
+
+
+:: Second Answer Check {"position":"825,275","size":"100,100"}
+<<if $Resilience && $Adaptability === true>>
+	<<print "Good job! You really know your stuff.">>
+    <<link "Final Question" "Final Trait Matching Checklist">> <</link>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $firstGameFailCount += 1>>
+    <<if $firstGameFailCount === 5>>
+    	<<nobr>>
+        	<<set $points += 100>>
+        <</nobr>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
+        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<else>>
+    	<<link "Try again" "Second Trait Matching Checklist">> <</link>>
+    <</if>>
+    <</nobr>>
+<</if>>
+
+
+:: Second Trait Matching Checklist {"position":"700,275","size":"100,100"}
+<<print "Which two things does a leader need most? Resilience, Impatience, Adaptability, Inconsistency, Neglect">>
+<<nobr>>
+  <<set $Resilience = false>>
+  <<set $Impatience = false>>
+  <<set $Adaptability = false>>
+  <<set $Inconsistency = false>>
+  <<set $Neglect = false>>
+<</nobr>>
+<label><<checkbox "$Resilience" false true  >> Resilience?</label>
+<label><<checkbox "$Impatience" false true  >> Impatience?</label>
+<label><<checkbox "$Adaptability" false true  >> Adaptability?</label>
+<label><<checkbox "$Inconsistency" false true  >> Inconsistency?</label>
+<label><<checkbox "$Neglect" false true  >> Neglect?</label>
+
+<<button "Submit">> 
+	<<set $list = [$Resilience, $Impatience, $Adaptability, $Inconsistency, $Neglect]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 2>>
+    	<<goto "Second Answer Check">>
+    <<else>>
+    	<<goto "Second Trait Matching Checklist">>
+    <</if>>
+<</button>>
+
+
+:: Trait Matching Start {"position":"575,175","size":"100,100"}
+Welcome to the Leadership Trait Minigame! In this game you will be given a list of traits and will have to determine which two traits are the most necessary to have as a leader.
+
+<<link "Start Game" "First Trait Matching Checklist">> <</link>>
+<<set $firstGameFailCount = 0>>
