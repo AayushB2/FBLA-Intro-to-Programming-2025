@@ -1,0 +1,100 @@
+:: StoryTitle
+Sketchy Guy
+
+
+:: StoryData
+{
+  "ifid": "B04DC98D-7846-4B32-A194-61A8F052A578",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "First Time seeing Al Lier",
+  "zoom": 1
+}
+
+
+:: Al Lier Approach {"position":"650,250","size":"100,100"}
+/* replace activites with variable that shows whichever thing the player did: games or questions: */
+
+<<print "Hey there, kid! I'm Al Lier. I see you're struggling with some of these activites. Don't feel bad buddy. Truth is none of this was meant to achievable. All that nonsense about leadership was just meant to make you guys feel better. Tell you what kid, you look smart. Why don't you go ahead and try those activities again? I have a feeling luck's going to be on your side this time.">>
+
+<<link "Minigame" "Rigged Minigame Welcome">> <</link>>
+
+
+:: First Time seeing Al Lier {"position":"525,250","size":"100,100"}
+<<print "A sketchy man walks up to you. Seeing him makes you recall one of your friends telling you about the old legend of Al Lier, a man who makes his way to every FBLA event, seeking to corrupt the business leaders of the future. They say his mere presence can make you lose your leadership capabilities forever. Do you talk to him or walk away?">>
+
+<<link "Talk to him" "Al Lier Approach">> <</link>>
+<<link "Walk away" "First Minigame">> <</link>>
+
+
+:: Rigged Checklist {"position":"900,250","size":"100,100"}
+<<print "Which two things match? Fruit, Vegetable, Chicken, Water, Soda">>
+<<set $Fruit = false>>
+<<set $Vegetable = false>>
+<<set $Chicken = false>>
+<<set $Water = false>>
+<<set $Soda = false>>
+
+<label><<checkbox "$Fruit" false true  >> Fruit?</label>
+<label><<checkbox "$Vegetable" false true  >> Vegetable?</label>
+<label><<checkbox "$Chicken" false true  >> Chicken?</label>
+<label><<checkbox "$Water" false true  >> Water?</label>
+<label><<checkbox "$Soda" false true  >> Soda?</label>
+
+<<if $timesButtonPressed > 0 && ($timesButtonPressed%3) === 0>>
+	<<set _Yes = false>>
+    <<set _No = false>>
+    <<print "Psst. It's me, AL Lier. I can tell you the answer if you want. Just say the word and I'll do it.">>
+    <label><<checkbox "_Yes" false true >> Yes</label>
+    <label><<checkbox "_No" false true >> No</label>
+	<<button "Confirm">> 
+      	<<set _YN = [_Yes, _No]>>
+      	<<set _chosenOption = []>>
+      	<<for _i to 0; _i lt _YN.length; _i++>>
+          	<<if _YN[_i] === true>>
+              	<<set _chosenOption.push(_i)>>
+          	<</if>>
+            
+            <<if _chosenOption[0] === 0>>
+          		<<run $("#badchoice").text("Attaboy. Listen close, the answer is Water and Soda.")>>
+      		<<else>>
+          		<<goto "Rigged Checklist">>
+      	<</if>>
+      	<</for>>      	
+    <</button>>
+    <div id ="badchoice"></div>
+<</if>>
+
+<<button "Submit">> 
+	<<set $list = [$Fruit, $Vegetable, $Chicken, $Water, $Soda]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 2>>
+    	<<goto "message">>
+    <<else>>
+    	<<set $timesButtonPressed += 1>>
+    	<<goto "Rigged Checklist">>
+    <</if>>
+<</button>>
+
+
+
+:: Rigged Minigame Welcome {"position":"775,250","size":"100,100"}
+Welcome to the Matching Minigame
+
+<<link "checklist" "Rigged Checklist">> <</link>>
+<<set $timesButtonPressed = 0>>
+
+
+:: message {"position":"1025,250","size":"100,100"}
+<<if $Water && $Soda === true>>
+	<<print "Good job">>
+<<else>>
+	<<print "no">>
+    <<link "Try again" "Rigged Checklist">> <</link>>
+<</if>>
