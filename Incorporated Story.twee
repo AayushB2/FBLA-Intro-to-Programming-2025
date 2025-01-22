@@ -322,3 +322,7 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
 
 <<link "Start Game" "First Trait Matching Checklist">> <</link>>
 <<set $firstGameFailCount = 0>>
+
+
+:: StoryScript [script]
+Config.history.controls = false;
