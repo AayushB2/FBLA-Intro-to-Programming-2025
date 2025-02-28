@@ -1,0 +1,137 @@
+:: StoryTitle
+Third Minigame Backup
+
+
+:: StoryData
+{
+  "ifid": "47d16690-3d66-4a06-b091-c65cc74ccc8d",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "zoom": 1
+}
+
+
+:: First Role Assigning {"position":"700,175","size":"100,100"}
+<<print "For your new startup, you must hire a social media manager. There are two candidates, choose the one you believe to be best suited for the job.">>
+
+<<print "James - He has a degree in Marketing, and experience running accounts for local businesses."
+<<print "Ryan - He spends a lot of time on the internet, and has an inconsistent yet impressive ability to recognize trends, but has no formal training or experience."
+
+<<set $James = false>>
+<<set $Ryan = false>>
+
+<label><<checkbox "$James" false true  >> Fruit?</label>
+<label><<checkbox "$Ryan" false true  >> Vegetable?</label>
+
+<<button "Submit">> 
+	<<set $list = [$James, $Ryan]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "message">>
+    <<else>>
+    	<<goto "First Role Assigning">>
+    <</if>>
+<</button>>
+
+
+:: First Role Assigning Answer {"position":"825,175","size":"100,100"}
+<<if $James === true>>
+	<<print "Good job">>
+    <<link "Next Question" "Second Role Assigning">><</link>>
+<<else>>
+	<<print "no">>
+    <<link "Try again" "First Role Assigning">> <</link>>
+<</if>>
+
+
+:: Second Role Assigning {"position":"700,300","size":"100,100"}
+<<print "Now, you must find a lead engineer to develop an app for your company. There are three candidates this time, choose the one you believe to be best suited for the job.">>
+
+<<print "Miguel- He is highly educated and has an adept understanding of software programming. However, his ambitions often make him forget everything around him, making him difficult to work with."
+<<print "Yasmin - She is a quick learning and well versed in web development, with experience programming with HTML, CSS, and Javascript, but doesn't have much experience with what you're looking for."
+<<print "Arjun- He has led several of his own software development projects as well as looked over many team projects. He makes sure to take everything into consideration such as financial constraints as well as the circumstances of his teammates."
+
+<<set $Miguel = false>>
+<<set $Yasmin = false>>
+<<set $Arjun = false>>
+
+
+<label><<checkbox "$Miguel" false true  >> Fruit?</label>
+<label><<checkbox "$Yasmin" false true  >> Vegetable?</label>
+<label><<checkbox "$Arjun" false true  >> Vegetable?</label>
+
+
+<<button "Submit">> 
+	<<set $list = [$Miguel, $Yasmin, $Arjun]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "Second Role Assigning Answer">>
+    <<else>>
+    	<<goto "Second Role Assigning">>
+    <</if>>
+<</button>>
+
+
+:: Second Role Assigning Answer {"position":"825,300","size":"100,100"}
+<<if $Arjun === true>>
+	<<print "Good job">>
+    <<link "Next Question" "Third Role Assigning">><</link>>
+<<else>>
+	<<print "no">>
+    <<link "Try again" "Second Role Assigning">> <</link>>
+<</if>>
+
+
+:: Start {"position":"575,175","size":"100,100"}
+Welcome to the Matching Minigame
+
+<<link "checklist" "First Role Assigning">> <</link>>
+
+
+:: Third Role Assigning {"position":"700,450","size":"100,100"}
+<<print "Now, you must find a customer service head. There are five candidates this time, choose the one you believe to be best suited for the job.">>
+
+<<print "Mia- ">>
+<<print "Adrian - ">>
+<<print "Piper- ">>
+<<print "Bradley- ">>
+<<print "Megha- ">>
+
+
+<<set $Miguel = false>>
+<<set $Yasmin = false>>
+<<set $Arjun = false>>
+
+
+<label><<checkbox "$Miguel" false true  >> Fruit?</label>
+<label><<checkbox "$Yasmin" false true  >> Vegetable?</label>
+<label><<checkbox "$Arjun" false true  >> Vegetable?</label>
+
+
+<<button "Submit">> 
+	<<set $list = [$Miguel, $Yasmin, $Arjun]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "Second Role Assigning Answer">>
+    <<else>>
+    	<<goto "Second Role Assigning">>
+    <</if>>
+<</button>>
