@@ -1,0 +1,175 @@
+:: StoryTitle
+Second Minigame Backup
+
+
+:: StoryData
+{
+  "ifid": "dea20c0e-5bab-4f61-98d0-91ffb3aeb6d4",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "Trait Matching Start",
+  "zoom": 1
+}
+
+
+:: First Pitch Answer Check {"position":"825,175","size":"100,100"}
+<<if $Grocery_Assistant === true>>
+	<<print "Good job! You really know your stuff.">>
+    <<link "Next Question" "Second Pitch Checklist">> <</link>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $firstGameFailCount += 1>>
+    <<if $firstGameFailCount === 5>>
+    	<<nobr>>
+        	<<set $points += 100>>
+        <</nobr>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
+        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<else>>
+    	<<link "Try again" "First Trait Matching Checklist">> <</link>>
+    <</if>>
+    <</nobr>>
+<</if>>
+
+
+:: First Pitch Checklist {"position":"700,175","size":"100,100"}
+<<print "Which pitch will most likely succeed?">>
+
+<<print "Pitch 1- A self-heating french fry container which can keep fries hot and crispy for over four hours. It contains an easily rechargeable heater and dehumidifier. Perfect for food lovers and delivery drivers. Disappointing leftovers will be a thing of the past.">>
+<<print "Pitch 2- A smart shopping assistant that keeps track of what's in your fridge. It can remind you when it may be time to buy new groceries. It could also suggest healthy alternatives as well as new things for you to try. Perfect for people who love to try new things at home.">>
+
+<<nobr>>
+  <<set $French_Fry_Container = false>>
+  <<set $Grocery_Assistant = false>>
+<</nobr>>
+<label><<checkbox "$French_Fry_Container" false true  >> Self-Heating French Fry Container</label>
+<label><<checkbox "$Grocery_Assistant" false true  >> AI Grocery Assistant</label>
+
+<<button "Submit">> 
+	<<set $list = [$French_Fry_Container, $Grocery_Assistant]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "First Pitch Answer Check">>
+    <<else>>
+    	<<goto "First Pitch Checklist">>
+    <</if>>
+<</button>>
+
+
+:: Second Pitch Answer Check {"position":"825,300","size":"100,100"}
+<<if $Portable_Charger === true>>
+	<<print "Good job! You really know your stuff.">>
+    <<link "Next Question" "Third Pitch Checklist">> <</link>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $firstGameFailCount += 1>>
+    <<if $firstGameFailCount === 5>>
+    	<<nobr>>
+        	<<set $points += 100>>
+        <</nobr>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
+        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<else>>
+    	<<link "Try again" "First Trait Matching Checklist">> <</link>>
+    <</if>>
+    <</nobr>>
+<</if>>
+
+
+:: Second Pitch Checklist {"position":"700,300","size":"100,100"}
+<<print "Which of these pitches will most likely succeed?">>
+
+<<print "Pitch 1- A fun, glow-in-the-dark cookie. It doesn't just turn your tounge a different color, it shines through your entire mouth. It's the perfect party snack for people of all ages 6-78.">>
+<<print "Pitch 2- An ultra thin reusable portable charger for your phone. You don't have to worry about forgetting your charger or there not being an outlet around. You can simply keep this in your wallet and slip it on the back of your phone and just watch it charge it in no time.">>
+
+<<nobr>>
+  <<set $Glowing_Cookie = false>>
+  <<set $Wireless_Charger = false>>
+<</nobr>>
+<label><<checkbox "$Glowing_Cookie" false true  >> Glowing Cookie</label>
+<label><<checkbox "$Wireless_Charger" false true  >> Wireless Charger</label>
+
+<<button "Submit">> 
+	<<set $list = [$Glowing_Cookie, $Wireless_Charger]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "Second Pitch Answer Check">>
+    <<else>>
+    	<<goto "Second Pitch Checklist">>
+    <</if>>
+<</button>>
+
+
+:: Third Pitch Answer Check {"position":"825,450","size":"100,100"}
+<<if $Sleep_Tracker === true>>
+	<<print "Good job! You really know your stuff.">>
+    <<link "Next Question" "Third Pitch Checklist">> <</link>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $firstGameFailCount += 1>>
+    <<if $firstGameFailCount === 5>>
+    	<<nobr>>
+        	<<set $points += 100>>
+        <</nobr>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
+        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<else>>
+    	<<link "Try again" "First Trait Matching Checklist">> <</link>>
+    <</if>>
+    <</nobr>>
+<</if>>
+
+
+:: Third Pitch Checklist {"position":"700,450","size":"100,100"}
+<<print "Which of these pitches will most likely succeed?">>
+
+<<print "Pitch 1- Scented Screen Protectors. Science shows that nice smells can evoke positive memories and positive emotions. With these screen protectors, that feeling will never go away.">>
+<<print "Pitch 2- The crunchiest chips you've never heard of. These chips are made in the exact right way that you can eat them anytime anywhere without disturbing others with that loud crunching noise. You can now freely eat your favorite snacks anywhere without making a peep whether it be in a movie theater, work, or even at the alter.">>
+<<print "Pitch 3- An app that manages your sleep cycles and soothe you to sleep. This app can be installed on your watch and track your heartbeats to see how long you've been sleeping for.">>
+
+<<nobr>>
+  <<set $Scented_Screens = false>>
+  <<set $Silent_Crunch = false>>
+   <<set $Sleep_Tracker = false>>
+<</nobr>>
+<label><<checkbox "$Scented_Screens" false true  >> Scented Screen Protectors</label>
+<label><<checkbox "$Silent_Crunch" false true  >> Silent Crunch Chips</label>
+<label><<checkbox "$Sleep_Tracker" false true  >> Sleep Tracker</label>
+
+<<button "Submit">> 
+	<<set $list = [$Scented_Screens, $Silent_Crunch, $Sleep_Tracker]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "Third Pitch Answer Check">>
+    <<else>>
+    	<<goto "Third Pitch Checklist">>
+    <</if>>
+<</button>>
+
+
+:: Trait Matching Start {"position":"575,175","size":"100,100"}
+Welcome to the Leadership Trait Minigame! In this game you will be given a list of traits and will have to determine which two traits are the most necessary to have as a leader.
+
+<<link "Start Game" "First Pitch Checklist">> <</link>>
+<<set $firstGameFailCount = 0>>
