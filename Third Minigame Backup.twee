@@ -7,6 +7,7 @@ Third Minigame Backup
   "ifid": "47d16690-3d66-4a06-b091-c65cc74ccc8d",
   "format": "SugarCube",
   "format-version": "2.37.3",
+  "start": "Start",
   "zoom": 1
 }
 
@@ -20,8 +21,8 @@ Third Minigame Backup
 <<set $James = false>>
 <<set $Ryan = false>>
 
-<label><<checkbox "$James" false true  >> Fruit?</label>
-<label><<checkbox "$Ryan" false true  >> Vegetable?</label>
+<label><<checkbox "$James" false true  >> James</label>
+<label><<checkbox "$Ryan" false true  >> Ryan</label>
 
 <<button "Submit">> 
 	<<set $list = [$James, $Ryan]>>
@@ -62,9 +63,9 @@ Third Minigame Backup
 <<set $Arjun = false>>
 
 
-<label><<checkbox "$Miguel" false true  >> Fruit?</label>
-<label><<checkbox "$Yasmin" false true  >> Vegetable?</label>
-<label><<checkbox "$Arjun" false true  >> Vegetable?</label>
+<label><<checkbox "$Miguel" false true  >> Miguel</label>
+<label><<checkbox "$Yasmin" false true  >> Yasmin</label>
+<label><<checkbox "$Arjun" false true  >> Arjun</label>
 
 
 <<button "Submit">> 
@@ -103,25 +104,29 @@ Welcome to the Matching Minigame
 :: Third Role Assigning {"position":"700,450","size":"100,100"}
 <<print "Now, you must find a customer service head. There are five candidates this time, choose the one you believe to be best suited for the job.">>
 
-<<print "Mia- ">>
-<<print "Adrian - ">>
-<<print "Piper- ">>
-<<print "Bradley- ">>
-<<print "Megha- ">>
+<<print "Mia- Has five years of experience in customer support, has led a small team before, and is skilled in conflict resolution.">>
+<<print "Adrian- A friendly and patient person with excellent communication skills but has only worked in retail sales, not customer support.">>
+<<print "Piper- A data analyst who is great at identifying trends in customer feedback but has no experience handling direct customer interactions.">>
+<<print "Bradley- A former technical support specialist who knows a lot about troubleshooting product issues but has never managed or trained a team.">>
+<<print "Megha- A very sociable woman who worked as a therapist for fifteen years. Great to talk to, but may stray discussions away from the business.">>
 
 
-<<set $Miguel = false>>
-<<set $Yasmin = false>>
-<<set $Arjun = false>>
+<<set $Mia = false>>
+<<set $Adrian = false>>
+<<set $Piper = false>>
+<<set $Bradley = false>>
+<<set $Megha = false>>
 
 
-<label><<checkbox "$Miguel" false true  >> Fruit?</label>
-<label><<checkbox "$Yasmin" false true  >> Vegetable?</label>
-<label><<checkbox "$Arjun" false true  >> Vegetable?</label>
+<label><<checkbox "$Mia" false true  >> Mia</label>
+<label><<checkbox "$Adrian" false true  >> Adrian</label>
+<label><<checkbox "$Piper" false true  >> Piper</label>
+<label><<checkbox "$Bradley" false true  >> Bradley</label>
+<label><<checkbox "$Megha" false true  >> Megha</label>
 
 
 <<button "Submit">> 
-	<<set $list = [$Miguel, $Yasmin, $Arjun]>>
+	<<set $list = [$Mia, $Adrian, $Piper, $Bradley, $Megha]>>
     <<set _amountChosen = 0>>
     <<for _i to 0; _i lt $list.length; _i++>>
         <<if $list[_i] === true>>
@@ -135,3 +140,12 @@ Welcome to the Matching Minigame
     	<<goto "Second Role Assigning">>
     <</if>>
 <</button>>
+
+
+:: Third Role Assigning Answer {"position":"825,450","size":"100,100"}
+<<if $Mia === true>>
+	<<print "Good job">>
+<<else>>
+	<<print "no">>
+    <<link "Try again" "Third Role Assigning">> <</link>>
+<</if>>
