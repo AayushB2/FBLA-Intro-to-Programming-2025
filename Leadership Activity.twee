@@ -1,0 +1,80 @@
+:: StoryTitle
+Leadership Activity
+
+
+:: StoryData
+{
+  "ifid": "9EB22F72-EAD6-491C-9277-387F4379E167",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "Leadership Activity Intro",
+  "zoom": 1
+}
+
+
+:: Leadership Activity Answer {"position":"850,175","size":"100,100"}
+<<if $Choice2 === true>>
+	<<print "Congratulations! You have succesfully passed the leadership activity. This is a tough accomplishment, one that you should be very proud of.">> 
+<<else>>
+	<<print "Sorry bud, you failed. It's okay. This is a really tough challenge. Remember, if you want you can go back and try again. You just have to start back at 0 points.">>
+    <<if $Choice5 === true>>
+    	<<set $AlLierTimeline = true>>
+     <<else>>
+    	<<set $AlLierTimeline = false>>
+      <</if>>
+<</if>>
+    
+
+
+:: Leadership Activity Intro {"position":"575,175","size":"100,100"}
+<<print "You walk up to the man by the big red sign that says 'LEADERSHIP ACTIVITY HERE'">>
+<<print "Leadership Activity Host- Well, hello there son. Are you okay? You look lost. Oh, you want to try this here leadership activity. My, my, aren't you ambitious. Unfortunately, you can only attempt that if you've gotten 500 points already. Say what? You already have? Let me check that real quick. \n Golly, that's impressive. To earn that many points at your age. You must be... THIS STATE'S NEXT GREAT LEADER.">>
+<<print "In this challenge you will be presented with a scenario in the workplace, and will have to pick the best course of action. It will be very difficult, my boy. Don't feel worried if you're not sure about what to do right away. Go on now, and don't forget to give it your all.">>  
+
+<<link "Leadership Activity" "Leadership Activity Start">><</link>>
+
+
+:: Leadership Activity Start {"position":"700,175","size":"100,100"}
+<<print "You are leading a high-stakes project with a strict deadline, and missing it could cost the company a major client. One of your most skilled team members, Alex, has suddenly started missing deadlines and turning in subpar work. Other team members are frustrated and concerned that they will have to pick up the slack. When you privately ask Alex about it, he reveals that both his parents as well as his aunt and uncle got into an accident and have been in critical condition for the past three weeks. Alex is typically the most ideal worker you have. Not only he is by far the most intelligent member of the team, perhaps most intelligent in the department, he is the most hardworking man you've ever worked with.">> 
+
+<<print "Complicating matters, two additional challenges arise: Upper management has warned you that they expect results, and if the deadline isn’t met, layoffs are possible. They are not open to extensions, and they expect you to manage the situation internally. Another team member, Jordan, is becoming resentful and has subtly hinted at quitting if they feel they are doing more than their fair share of the work. Though Jordan may not be as smart or as hardworking as Alex, she is still essential to the team's success. Amongst all this chaos, what do you, as a leader, do in order to best handle this situation.">>
+
+<<print "Choice 1: Push Alex to continue at his current level of work but offer extra support and encouragement. Check in frequently to monitor progress while ensuring he is still contributing at an acceptable level\n">>
+<<print "Choice 2: Privately talk with Alex again, expressing understanding but also emphasizing the stakes of the project. Offer to temporarily adjust their workload and assign them tasks that are more flexible while redistributing their heavier tasks to the team. Meet with the team (without revealing Alex’s personal situation) and address workload concerns transparently, ensuring that no one feels unfairly burdened. Have one-on-one conversations with Jordan and others to prevent resentment from escalating while keeping morale intact.\n">>
+<<print "Choice 3: Privately inform upper management of Alex’s situation and request additional resources or support.\n">>
+<<print "Choice 4:  Meet with the team and, without naming Alex, state that there are challenges requiring everyone to step up temporarily. Offer extra perks such as flexible hours or minor incentives.\n">>
+<<print "Choice 5: Implement a structured short-term solution by redistributing Alex’s workload carefully and fairly, while checking in frequently to assess their ability to contribute. Have a team-wide meeting to reinforce collective responsibility while recognizing individual contributions. Meanwhile, communicate with upper management that the team is adjusting but will still deliver results—reframing the challenge as a leadership-driven solution rather than a problem. Offer incentives such as a post-project reward to keep motivation up.\n">>
+<<print "Choice 6: Quietly reduce Alex’s workload and rely on the rest of the team to compensate. Reassure Jordan and the others that you’re aware of the imbalance but ask for their patience in keeping things running smoothly. This may maintain short-term productivity but risks long-term resentment if no one feels their concerns are addressed.\n">>
+
+<<set $Choice1 = false>>
+<<set $Choice2 = false>>
+<<set $Choice3 = false>>
+<<set $Choice4 = false>>
+<<set $Choice5 = false>>
+<<set $Choice6 = false>>
+
+<label><<checkbox "$Choice1" false true  >> Choice 1</label>
+<label><<checkbox "$Choice2" false true  >> Choice 2</label>
+<label><<checkbox "$Choice3" false true  >> Choice 3</label>
+<label><<checkbox "$Choice4" false true  >> Choice 4</label>
+<label><<checkbox "$Choice5" false true  >> Choice 5</label>
+<label><<checkbox "$Choice6" false true  >> Choice 6</label>
+
+
+<<button "Submit">> 
+	<<set $list = [$Choice1, $Choice2, $Choice3, $Choice4, $Choice5, $Choice6]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "Leadership Activity Answer">>
+    <<else>>
+    	<<goto "Leadership Activity Start">>
+    <</if>>
+<</button>>
+
+
