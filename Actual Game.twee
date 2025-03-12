@@ -16,7 +16,9 @@ Actual Game
     "General-Story": "purple",
     "Bridge-Scenario": "yellow",
     "Bad-Ending": "red",
-    "Minigames": "orange"
+    "Minigames": "orange",
+    "Leadership-Activity": "blue",
+    "Al-Lier": "red"
   },
   "zoom": 1
 }
@@ -28,6 +30,12 @@ Anonymous caller - "Hello again student. I will ask you again, would you like to
 <<link "Decline" "Decline">> <</link>>
 <<link "Play the game" "Play the game">> <</link>>
 <<link "Exit" "Exit">> <</link>>
+
+
+:: Al Lier Approach [Al-Lier] {"position":"850,1800","size":"100,100"}
+<<print "Al Lier- Hey there, kid! I'm Al Lier. I see you're struggling with some of these activites. Don't feel bad buddy. Truth is none of this was meant to achievable. All that nonsense about leadership was just meant to make you guys feel better. Tell you what kid, you look smart. Why don't you go ahead and try those activities again? I have a feeling luck's going to be on your side this time.">>
+
+<<link "Go over and begin the first minigame" "Rigged Minigame Welcome">> <</link>>
 
 
 :: Answer call [General-Story] {"position":"600,800","size":"100,100"}
@@ -77,12 +85,18 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     	<<set $points += 200>>
     <</nobr>>
 	<<print "Nice job! You Won!. You now have " + $points + " points!">>
-    <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <<if $AlLierTimeline === true>>
+    	<<print "A voice comes on the intercom.">>
+        <<print "Voice- Please come outside for a moment. There is someone who would like to speak to you.">>
+        <<link "Step outside" "Mr FBLA Al Lier Reveal">><</link>>
+    <<else>>
+    	<<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+    <</if>>
 <<else>>
 	<<print "no">>
     <<nobr>>
     <<set $firstGameFailCount += 1>>
-    <<if $firstGameFailCount === 5>>
+    <<if $firstGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
@@ -131,16 +145,16 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <<if $Empathy && $Integrity === true>>
 	<<print "Good job! You really know your stuff.">>
     <<link "Next Question" "Second Trait Matching Checklist">> <</link>>
-<<else>>
+  <<else>>
 	<<print "no">>
     <<nobr>>
     <<set $firstGameFailCount += 1>>
-    <<if $firstGameFailCount === 5>>
+    <<if $firstGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
     	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
-        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+        <<link "\nLeave and go to next game" "Intro Before Second Game">> <</link>>
     <<else>>
     	<<link "Try again" "First Trait Matching Checklist">> <</link>>
     <</if>>
@@ -156,7 +170,7 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 	<<print "no">>
     <<nobr>>
     <<set $secondGameFailCount += 1>>
-    <<if $secondGameFailCount === 5>>
+    <<if $secondGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
@@ -236,17 +250,32 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 	<<print "no">>
     <<nobr>>
     <<set $thirdGameFailCount += 1>>
-    <<if $thirdGameFailCount === 5>>
-    	<<nobr>>
-        	<<set $points += 100>>
-        <</nobr>>
-    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
-        <<link "\nLeave and go to next game" "Intro Before Third Game">> <</link>>
+
+    <<if $thirdGameFailCount % 5 === 0>>
+    	<<set $points += 100>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only receive 100 points.">>
+
+        <<if $points === 500>>
+        	<<print "Fortune is in your favor, as you have still managed to accumulate the 500 points you needed. You may now go on to attempt the leadership activity.">>
+        	<<link "Leave and go to leadership activity" "Leadership Activity Intro">> <</link>>
+        <<else>>
+        	<<print "Sadly, you have failed these minigames. You may not attempt the leadership activity at this moment. If you still wish to pursue it, you may reattempt these minigames, with your points reset to 0.">>
+            <<set $points = 0>>
+            <<link "\nStart from the first minigame" "Trait Matching Start">> <</link>>
+        <</if>>
     <<else>>
     	<<link "Try again" "First Role Assigning">> <</link>>
     <</if>>
     <</nobr>>
 <</if>>
+
+
+
+:: First Time seeing Al Lier [Al-Lier] {"position":"725,1800","size":"100,100"}
+<<print "As you walk back to the first minigame, a sketchy man walks up to you. Seeing him makes you recall one of your friends telling you about the old legend of Al Lier, a man who makes his way to every FBLA event, seeking to corrupt the business leaders of the future. They say his mere presence can make you lose your leadership capabilities forever. Do you talk to him or walk away?">>
+
+<<link "Talk to him" "Al Lier Approach">> <</link>>
+<<link "Walk away" "Trait Matching Start">> <</link>>
 
 
 :: First Trait Matching Checklist [Minigames] {"position":"850,1175","size":"100,100"}
@@ -336,6 +365,79 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 <<set $thirdGameFailCount = 0>>
 
 
+:: Leadership Activity Answer [Leadership-Activity] {"position":"975,1600","size":"100,100"}
+<<if $Choice2 === true>>
+	<<print "Congratulations! You have succesfully passed the leadership activity. This is a tough accomplishment, one that you should be very proud of.">> 
+    <<print "Step outside there's someone who wants to see you.">>
+    <<link "Go outside" "Mr FBLA Reveal">> <</link>>
+<<else>>
+	<<print "Sorry bud, you failed. It's okay. This is a really tough challenge. Remember, if you want you can go back and try again. You just have to start back at 0 points.">>
+    <<set $points = 0>>
+    <<if $Choice5 === true>>
+    	<<set $AlLierTimeline = true>>
+        <<link "Go back to first game" "First Time seeing Al Lier">> <</link>>
+     <<else>>
+    	<<set $AlLierTimeline = false>>
+        <<link "Go back to first game" "Trait Matching Start">> <</link>> 
+      <</if>>
+<</if>>
+    
+
+
+:: Leadership Activity Intro [Leadership-Activity] {"position":"725,1600","size":"100,100"}
+<<print "You walk up to the man by the big red sign that says 'LEADERSHIP ACTIVITY HERE'">>
+<<print "Leadership Activity Host- Well, hello there son. Are you okay? You look lost. Oh, you want to try this here leadership activity. My, my, aren't you ambitious. Unfortunately, you can only attempt that if you've gotten 500 points already. Say what? You already have? Let me check that real quick. \n Golly, that's impressive. To earn that many points at your age. You must be... THIS STATE'S NEXT GREAT LEADER.">>
+<<print "In this challenge you will be presented with a scenario in the workplace, and will have to pick the best course of action. It will be very difficult, my boy. Don't feel worried if you're not sure about what to do right away. Go on now, and don't forget to give it your all.">>  
+
+<<link "Leadership Activity" "Leadership Activity Start">><</link>>
+
+
+:: Leadership Activity Start [Leadership-Activity] {"position":"850,1600","size":"100,100"}
+<<print "You are leading a high-stakes project with a strict deadline, and missing it could cost the company a major client. One of your most skilled team members, Alex, has suddenly started missing deadlines and turning in subpar work. Other team members are frustrated and concerned that they will have to pick up the slack. When you privately ask Alex about it, he reveals that both his parents as well as his aunt and uncle got into an accident and have been in critical condition for the past three weeks. Alex is typically the most ideal worker you have. Not only he is by far the most intelligent member of the team, perhaps most intelligent in the department, he is the most hardworking man you've ever worked with.">> 
+
+<<print "Complicating matters, two additional challenges arise: Upper management has warned you that they expect results, and if the deadline isn’t met, layoffs are possible. They are not open to extensions, and they expect you to manage the situation internally. Another team member, Jordan, is becoming resentful and has subtly hinted at quitting if they feel they are doing more than their fair share of the work. Though Jordan may not be as smart or as hardworking as Alex, she is still essential to the team's success. Amongst all this chaos, what do you, as a leader, do in order to best handle this situation.">>
+
+<<print "Choice 1: Push Alex to continue at his current level of work but offer extra support and encouragement. Check in frequently to monitor progress while ensuring he is still contributing at an acceptable level\n">>
+<<print "Choice 2: Privately talk with Alex again, expressing understanding but also emphasizing the stakes of the project. Offer to temporarily adjust their workload and assign them tasks that are more flexible while redistributing their heavier tasks to the team. Meet with the team (without revealing Alex’s personal situation) and address workload concerns transparently, ensuring that no one feels unfairly burdened. Have one-on-one conversations with Jordan and others to prevent resentment from escalating while keeping morale intact.\n">>
+<<print "Choice 3: Privately inform upper management of Alex’s situation and request additional resources or support.\n">>
+<<print "Choice 4:  Meet with the team and, without naming Alex, state that there are challenges requiring everyone to step up temporarily. Offer extra perks such as flexible hours or minor incentives.\n">>
+<<print "Choice 5: Implement a structured short-term solution by redistributing Alex’s workload carefully and fairly, while checking in frequently to assess their ability to contribute. Have a team-wide meeting to reinforce collective responsibility while recognizing individual contributions. Meanwhile, communicate with upper management that the team is adjusting but will still deliver results—reframing the challenge as a leadership-driven solution rather than a problem. Offer incentives such as a post-project reward to keep motivation up.\n">>
+<<print "Choice 6: Quietly reduce Alex’s workload and rely on the rest of the team to compensate. Reassure Jordan and the others that you’re aware of the imbalance but ask for their patience in keeping things running smoothly. This may maintain short-term productivity but risks long-term resentment if no one feels their concerns are addressed.\n">>
+
+<<set $Choice1 = false>>
+<<set $Choice2 = false>>
+<<set $Choice3 = false>>
+<<set $Choice4 = false>>
+<<set $Choice5 = false>>
+<<set $Choice6 = false>>
+
+<label><<checkbox "$Choice1" false true  >> Choice 1</label>
+<label><<checkbox "$Choice2" false true  >> Choice 2</label>
+<label><<checkbox "$Choice3" false true  >> Choice 3</label>
+<label><<checkbox "$Choice4" false true  >> Choice 4</label>
+<label><<checkbox "$Choice5" false true  >> Choice 5</label>
+<label><<checkbox "$Choice6" false true  >> Choice 6</label>
+
+
+<<button "Submit">> 
+	<<set $list = [$Choice1, $Choice2, $Choice3, $Choice4, $Choice5, $Choice6]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 1>>
+    	<<goto "Leadership Activity Answer">>
+    <<else>>
+    	<<goto "Leadership Activity Start">>
+    <</if>>
+<</button>>
+
+
+
+
 :: Meet up with some friends [General-Story] {"position":"600,700","size":"100,100"}
 -You meet up with some friends, but a few minutes later a no caller ID calls you-
 
@@ -344,11 +446,120 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 <<link "Exit" "Exit">> <</link>>
 
 
+:: Mr FBLA Al Lier Reveal [Al-Lier] {"position":"900,2000","size":"100,100"}
+<<print "You walk outside and you see Al Lier again.">>
+<<print "Al Lier- 'Gotta say kid, I'm  impressed. You must be thinking right now 'what is this guy doing here.' Before you think or say anything else, let me say one thing. I'm not who you think I am.'">>
+<<print "\n He begins to change so quickly in order to reveal his disguise. When he's done, you are shocked and can't believe your eyes.">>
+<<print "'The truth is... I am Mr. FBLA. Every year I put on this little performance for a randomly selected student to see if I can find someone worthy of being the leaders of the future. Unfortunately, I have only been disappointed. When I saw that you made it to the leadership challenge, I was hopeful and saw potential in you. I was happy to see that you didn't let my hopes sink after raising them so high. I want you to remember kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. You've demonstrated today that you are able to do that. Thank you for reminding that there are good reliable people out there. I hope you live your best life and take the lessons you've learned here today out in the real world.'">>
+
+
+:: Mr FBLA Confrontation [Al-Lier Bad-Ending] {"position":"1100,2000","size":"100,100"}
+<<print "You walk outside and you see Al Lier again.">>
+<<print "Al Lier- 'Gotta say kid, I'm not impressed. You must be thinking right now 'wow this guy is hypocritical.' Before you think or say anything else, let me say one thing. I'm not who you think I am.'">>
+<<print "\n He begins to change so quickly in order to reveal his disguise. When he's done, you are shocked and can't believe your eyes.">>
+<<print "'The truth is... I am Mr. FBLA. Every year I put on this little performance for a randomly selected student to see if I can find someone worthy of being the leaders of the future. Unfortunately, I have only been disappointed. When I saw that you made it to the leadership challenge, I was hopeful and saw potential in you. Sadly, just as quickly you got my hopes up, you sqaundered them. Take this as a lesson kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. Knowing the kind of person you are right now, I must ask you to leave the premises. What you do from there is in your hands.'">>
+
+
+:: Mr FBLA Reveal {"position":"1100,1600","size":"100,100"}
+<<print "You walk outside and you see... Mr. FBLA?">>
+<<print "\n He walks up to you and begins to say something">>
+<<print "'Every year I put on this carnvial to see if I can find someone worthy of being the leaders of the future. I have even put on a disguise pretending to be some evil enemy of leadership. Unfortunately, I have only been disappointed. That was until you came along. When I saw that you made it to the leadership challenge, I was hopeful and saw potential in you. I was happy to see that you didn't let my hopes sink after raising them so high. I want you to remember kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. You've demonstrated today that you are able to do that. Thank you for reminding that there are good reliable people out there. I hope you live your best life and take the lessons you've learned here today out in the real world.'">>
+
+
 :: Play the game [Bridge-Scenario] {"position":"600,1100","size":"100,100"}
 Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 500 FBLA points by either completing three mini-games set-up by the state officers. 2. AFTER you have your 500 points you must attend one leadership challenge and win, if you lose the challenge you must accumulate the 500 points again and then try to win the challenge again. You get three tries to win the leadership challenge."
 
 <<link "Go to first game" "Trait Matching Start">> <</link>>
 
+
+
+:: Rigged First Answer Check [Al-Lier] {"position":"1225,1800","size":"100,100"}
+<<if $Empathy && $Integrity === true>>
+    <<if $AlLierAssociate === false>>
+    	<<print "Good job! You really know your stuff. ">>
+    	<<link "Next Question" "Second Trait Matching Checklist">> <</link>>
+    <<else>>
+     	<<print "A voices comes over an intercom.">>
+        <<print '"Voice- We know what you did. You must forfeit this minigame. Please step outside for a moment as we need to have a word with you."'>>
+        <<link "Leave the game in shame" "Mr FBLA Confrontation">> <</link>> 
+    <</if>>
+<<else>>
+	<<print "no">>
+    <<nobr>>
+    <<set $timesButtonPressed += 1>>
+    <<set $firstGameFailCount += 1>>
+    <<link "Try again" "Rigged First Trait Matching Checklist">> <</link>>
+    <</nobr>>
+<</if>>
+
+
+:: Rigged First Trait Matching Checklist [Al-Lier] {"position":"1100,1800","size":"100,100"}
+<<print "Which two things does a leader need most? Arrogance, Empathy, Dishonesty, Vanity, Integrity">>
+<<nobr>>
+  <<set $Arrogance = false>>
+  <<set $Empathy = false>>
+  <<set $Dishonesty = false>>
+  <<set $Vanity = false>>
+  <<set $Integrity = false>>
+<</nobr>>
+<label><<checkbox "$Arrogance" false true  >> Arrogance?</label>
+<label><<checkbox "$Empathy" false true  >> Empathy?</label>
+<label><<checkbox "$Dishonesty" false true  >> Dishonesty?</label>
+<label><<checkbox "$Vanity" false true  >> Vanity?</label>
+<label><<checkbox "$Integrity" false true  >> Integrity?</label>
+
+<<if $timesButtonPressed > 0 && ($timesButtonPressed%3) === 0>>
+	<<set _Yes = false>>
+    <<set _No = false>>
+    <<print "Psst. It's me, AL Lier. I can tell you the answer if you want. Just say the word and I'll do it.">>
+    <label><<checkbox "_Yes" false true >> Yes</label>
+    <label><<checkbox "_No" false true >> No</label>
+	<<button "Confirm">> 
+      	<<set _YN = [_Yes, _No]>>
+      	<<set _chosenOption = []>>
+      	<<for _i to 0; _i lt _YN.length; _i++>>
+          	<<if _YN[_i] === true>>
+              	<<set _chosenOption.push(_i)>>
+          	<</if>>
+            
+            <<if _chosenOption[0] === 0>>
+          		<<run $("#badchoice").text("Attaboy. Listen close, the answer is Empathy and Integrity.")>>
+                <<set $AlLierAssociate = true>>
+      		<<else>>
+          		<<goto "Rigged First Trait Matching Checklist">>
+                <<set $AlLierAssociate = false>>
+      	<</if>>
+      	<</for>>      	
+    <</button>>
+    <div id ="badchoice"></div>
+<</if>>
+
+
+
+<<button "Submit">> 
+	<<set $list = [$Arrogance, $Empathy, $Dishonesty, $Vanity, $Integrity]>>
+    <<set _amountChosen = 0>>
+    <<for _i to 0; _i lt $list.length; _i++>>
+        <<if $list[_i] === true>>
+            <<set _amountChosen += 1>>
+        <</if>>
+    <</for>>
+    
+    <<if _amountChosen == 2>>
+    	<<goto "Rigged First Answer Check">>
+    <<else>>
+        <<set $timesButtonPressed += 1>>
+    	<<goto "Rigged First Trait Matching Checklist">>
+    <</if>>
+<</button>>
+
+
+:: Rigged Minigame Welcome [Al-Lier] {"position":"975,1800","size":"100,100"}
+Welcome to the Leadership Trait Minigame! In this game you will be given a list of traits and will have to determine which two traits are the most necessary to have as a leader.
+
+<<link "Start Game" "Rigged First Trait Matching Checklist">> <</link>>
+<<set $timesButtonPressed = 0>>
+<<set $AlLierAssociate = false>>
 
 
 :: Second Answer Check [Minigames] {"position":"975,1275","size":"100,100"}
@@ -359,12 +570,12 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
 	<<print "no">>
     <<nobr>>
     <<set $firstGameFailCount += 1>>
-    <<if $firstGameFailCount === 5>>
+    <<if $firstGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
     	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
-        <<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
+        <<link "\nLeave and go to next game" "Intro Before Second Game">> <</link>>
     <<else>>
     	<<link "Try again" "Second Trait Matching Checklist">> <</link>>
     <</if>>
@@ -380,7 +591,7 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
 	<<print "no">>
     <<nobr>>
     <<set $secondGameFailCount += 1>>
-    <<if $secondGameFailCount === 5>>
+    <<if $secondGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
@@ -465,12 +676,19 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
 	<<print "no">>
     <<nobr>>
     <<set $thirdGameFailCount += 1>>
-    <<if $thirdGameFailCount === 5>>
+    <<if $thirdGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
     	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
-        <<link "\nLeave and go to next game" "Intro Before Third Game">> <</link>>
+        <<if $points === 500>>
+        	<<print "Fortune is in your favor however, as you have still managed to accumulate the 500 points you needed. You may now go on to attempt the leadership activity.>>
+        	<<link "Leave and go to leadership activity" "Leadership Activity Intro">> <</link>>
+         <<else>>
+         	<<print "Sadly, you have failed these minigames. You may not attempt the leadership activity at this moment. If you still wish to pursue it, you may reattempt these minigames, with your points reset to 0.">>
+            <<set $points = 0>>
+            <<link "Start from the first minigame" "Intro Before First Game"">> <</link>>
+          <</if>>
     <<else>>
     	<<link "Try again" "Second Role Assigning">> <</link>>
     <</if>>
@@ -520,6 +738,7 @@ NC FBLA President - " Mr. FBLA has been observing the leadership and business in
 <<link "Get up from seat" "Get up from seat">> <</link>>
 <<link "Exit" "Exit">> <</link>>
 <<set $points = 0>>
+<<set $AlLierTimeline = false>>
 
 
 :: Starting Page [General-Info] {"position":"600,200","size":"200,100"}
@@ -538,17 +757,17 @@ Exit game: <<link "Exit" "Exit">> <</link>>
     	<<set $points += 200>>
     <</nobr>>
 	<<print "Nice job! You Won!. You now have " + $points + " points!">>
-    <<link "Leave and go to next game" "Intro Before Third Game">> <</link>>
+    <<link "Leave and go to third game" "Intro Before Third Game">> <</link>>
 <<else>>
 	<<print "no">>
     <<nobr>>
     <<set $secondGameFailCount += 1>>
-    <<if $secondGameFailCount === 5>>
+    <<if $secondGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
-    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
-        <<link "\nLeave and go to next game" "Intro Before Third Game">> <</link>>
+    	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">> 
+        <<link "Leave and go to third game" "Intro Before Third Game">> <</link>>
     <<else>>
     	<<link "Try again" "Third Pitch Checklist">> <</link>>
     <</if>>
@@ -635,17 +854,24 @@ Exit game: <<link "Exit" "Exit">> <</link>>
     	<<set $points += 200>>
     <</nobr>>
 	<<print "Nice job! You Won!. You now have " + $points + " points!">>
-    <<link "Leave and go to next game" "Intro Before Third Game">> <</link>>
+    <<link "\nLeave and attempt the leadership activity" "Leadership Activity Intro">> <</link>>
 <<else>>
 	<<print "no">>
     <<nobr>>
     <<set $thirdGameFailCount += 1>>
-    <<if $thirdGameFailCount === 5>>
+    <<if $thirdGameFailCount % 5 === 0>>
     	<<nobr>>
         	<<set $points += 100>>
         <</nobr>>
     	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
-        <<link "\nLeave and go to next game" "Intro Before Third Game">> <</link>>
+        <<if $points === 500>>
+        	<<print "Fortune is in your favor however, as you have still managed to accumulate the 500 points you needed. You may now go on to attempt the leadership activity.>>
+        	<<link "\nLeave and go to leadership activity" "Leadership Activity Intro">> <</link>>
+         <<else>>
+         	<<print "Sadly, you have failed these minigames. You may not attempt the leadership activity at this moment. If you still wish to pursue it, you may reattempt these minigames, with your points reset to 0.">>
+            <<set $points = 0>>
+            <<link "\nStart from the first minigame" "Intro Before First Game"">> <</link>>
+          <</if>>
     <<else>>
     	<<link "Try again" "Third Role Assigning">> <</link>>
     <</if>>
