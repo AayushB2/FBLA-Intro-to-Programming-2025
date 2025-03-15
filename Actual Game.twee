@@ -1,5 +1,5 @@
 :: StoryTitle
-Actual Game
+Carnival of Leadership
 
 
 :: StoryData
@@ -72,6 +72,10 @@ Anonymous caller - "Hello again student. I will ask you again, would you like to
 <</button>>
 
 
+:: Close Tab {"position":"350,200","size":"100,100"}
+<<run close()>>
+
+
 :: Decline [Bad-Ending] {"position":"300,1100","size":"100,100"}
 -You turn off your phone to avoid getting called from that number again. Later Mr. FBLA approaches you.-
 
@@ -89,11 +93,12 @@ Mr. FBLA - "You hear my voice yet you still didn't even move a muscle?!?!?!?? I 
 <<print "Thank you for playing this interactive story game!">>
 
 <<print "Select the things below you may want to look at from your journey and we will generate a report for you.">>
-
+<<print "PLEASE NOTE: If you lost at the beginning of the game after ignoring the call too many times, no report can be made for you. Please ignore the content below and go back to the Starting Page if you wish to play again for a different ending.">> 
+<<nobr>>
 <<set $MistakesMade = false>>
 <<set $endingPoints = false>>
 <<set $uniqueTimeline = false>>
-
+<</nobr>>
 <label><<checkbox "$MistakesMade" false true  >> Report Total Mistakes Made </label>
 <label><<checkbox "$endingPoints" false true  >> Report Total Points </label>
 <label><<checkbox "$uniqueTimeline" false true  >> Report Timeline Uniqueness  </label>
@@ -104,10 +109,17 @@ Mr. FBLA - "You hear my voice yet you still didn't even move a muscle?!?!?!?? I 
 
 Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <<set $savedPosition = "Starting Page">>
+<<set $points = 300>>
+<<set $firstGameFailCount = 0>>
+<<set $secondGameFailCount = 1>>
+<<set $thirdGameFailCount = 2>>
+<<set $AlLierTimeline = true>>
 
 
 :: Explore the carnival [General-Story] {"position":"700,600","size":"100,100"}
--You start exploring what to do at the carnival. There are a lot of interesting activities. *A few minutes pass by* while deciding on what to do, you find a no caller ID calling you-
+<img src="https://media0.giphy.com/media/CNfKoyvLXuHged43dr/giphy.gif" class="phone-gif">
+
+<<print "-You start exploring what to do at the carnival. There are a lot of interesting activities. *A few minutes pass by* while deciding on what to do, you find a no caller ID calling you-">>
 
 <<link "Answer call" "Answer call">> <</link>>
 <<link "Ignore call" "Ignore call">> <</link>>
@@ -356,13 +368,17 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 
 :: First Trait Matching Checklist [Minigames] {"position":"850,1175","size":"100,100"}
 <<print "Which two things does a leader need most? Arrogance, Empathy, Dishonesty, Vanity, Integrity">>
+
 <<nobr>>
+  <!-- Initialize boolean variables for each trait -->
   <<set $Arrogance = false>>
   <<set $Empathy = false>>
   <<set $Dishonesty = false>>
   <<set $Vanity = false>>
   <<set $Integrity = false>>
 <</nobr>>
+
+<!-- Checkbox options for selecting traits -->
 <label><<checkbox "$Arrogance" false true  >> Arrogance?</label>
 <label><<checkbox "$Empathy" false true  >> Empathy?</label>
 <label><<checkbox "$Dishonesty" false true  >> Dishonesty?</label>
@@ -370,14 +386,18 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <label><<checkbox "$Integrity" false true  >> Integrity?</label>
 
 <<button "Submit">> 
+    <!-- Store selected values in a list -->
 	<<set $list = [$Arrogance, $Empathy, $Dishonesty, $Vanity, $Integrity]>>
     <<set _amountChosen = 0>>
+    
+    <!-- Loop through the list to count selected traits -->
     <<for _i to 0; _i lt $list.length; _i++>>
         <<if $list[_i] === true>>
             <<set _amountChosen += 1>>
         <</if>>
     <</for>>
     
+    <!-- Check if exactly two traits are selected -->
     <<if _amountChosen == 2>>
     	<<goto "First Answer Check">>
     <<else>>
@@ -385,10 +405,12 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     <</if>>
 <</button>>
 
+<!-- Button to stop and return to the starting page -->
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Get up from seat [General-Story] {"position":"600,500","size":"100,100"}
@@ -446,11 +468,52 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <<link "Starting Page" "Starting Page">> <</link>>
 
 
+:: Interactive Q&A [General-Info] {"position":"1175,200","size":"100,100"}
+<<textbox "$userInput" "Ask a question!">>
+<div id = "QnA"></div>
+<<button "Submit Question">>
+  <<script>>
+      function searchAnswer() {
+        // Get the user's input
+        var userQuestion = State.variables.userInput.toLowerCase();
+
+        // Keywords and answers
+        var responses = {
+            "teach": "This game is designed to teach you about decision-making in challenging situations. You will navigate through the carnival, face puzzles, and make choices that will affect your story!",
+            "input": "To input information, type your choices or actions in the textbox and hit 'Enter' or click the 'Ask' button. You'll be asked to make decisions at each step.",
+            "repeat": "It seems like you're repeating your question. The game moves forward when you provide a specific response to the situation you're in. Try making a choice related to your surroundings or the game’s tasks.",
+            "mechanics": "In this game, you'll be interacting with various carnival attractions. Your decisions influence how the story unfolds, so think carefully about each choice!",
+            "goal": "Your goal is to explore the carnival, solve puzzles, and uncover its mysteries. Be mindful of the choices you make—they’ll shape your adventure and might lead you to hidden secrets!",
+            "puzzles": "You'll encounter puzzles throughout the game. Pay close attention to clues around you. Some puzzles may require you to interact with carnival games or follow specific instructions.",
+            "choice": "At any point, you'll be asked to make a choice. Make sure to consider the options carefully before deciding, as some choices can lead to different paths in the story.",
+        };
+
+        // Default response
+        var defaultResponse = "Sorry, I don't know the answer to that. Could you try asking something else?";
+
+        // Search for keywords in the input and display the response
+        var response = defaultResponse;
+        for (var keyword in responses) {
+            if (userQuestion.includes(keyword)) {
+                response = responses[keyword];
+                break;
+            }
+        }
+
+        // Display the response        
+        document.getElementById("QnA").innerHTML = response;
+      }
+      
+      searchAnswer(variables().userInput);
+  <</script>>
+<</button>>
+
+
+
 :: Intro Before Second Game [Minigames] {"position":"1225,1175","size":"100,100"}
 Welcome to the Pitch Minigame! In this game you will be given different product pitches and will have to determine which pitch is most likely to succeed.
 
 <<link "Start Game" "First Pitch Checklist">> <</link>>
-<<set $secondGameFailCount = 0>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
     <<goto "Starting Page">>
@@ -461,7 +524,6 @@ Welcome to the Pitch Minigame! In this game you will be given different product 
 Welcome to the Role Assigning Minigame! In this game you must pick the best suited person for a job amongst a group of candidates.
 
 <<link "Start Game" "First Role Assigning">> <</link>>
-<<set $thirdGameFailCount = 0>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
     <<goto "Starting Page">>
@@ -554,6 +616,8 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 
 
 :: Meet up with some friends [General-Story] {"position":"600,700","size":"100,100"}
+<img src="https://media0.giphy.com/media/CNfKoyvLXuHged43dr/giphy.gif" class="phone-gif">
+
 -You meet up with some friends, but a few minutes later a no caller ID calls you-
 
 <<link "Answer call" "Answer call">> <</link>>
@@ -604,6 +668,59 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 
 
 :: Output Report [General-Info] {"position":"1025,200","size":"100,100"}
+<table id="report-table"></table><<script>>
+$(document).ready(function() {
+    function generateReportHead(table, data){
+        let thead = table.createTHead();
+        let row = thead.insertRow();
+        for(let key of data){
+            let th = document.createElement("th");
+            let text = document.createTextNode(key);
+            th.appendChild(text);
+            row.appendChild(th);
+        }
+    }
+
+    function generateReport(table, data) {
+        for (let element of data) {
+            let row = table.insertRow();
+            for (let key in element) {  
+                let cell = row.insertCell();
+                let text = document.createTextNode(element[key]);
+                cell.appendChild(text);
+            }
+        }
+    }
+
+    let table_data = [];
+
+    if (State.variables.MistakesMade === true) {
+        table_data.push({Category: "First Minigame Mistakes", Outcome: State.variables.firstGameFailCount});
+        table_data.push({Category: "Second Minigame Mistakes", Outcome: State.variables.secondGameFailCount});
+        table_data.push({Category: "Third Minigame Mistakes", Outcome: State.variables.thirdGameFailCount});
+        table_data.push({Category: "Total Minigame Mistakes",
+            Outcome: (State.variables.firstGameFailCount + State.variables.secondGameFailCount + State.variables.thirdGameFailCount)
+        });
+    }
+
+    if (State.variables.endingPoints === true) {
+        table_data.push({Category: "Ending Points", Outcome: State.variables.points});
+    }
+
+    if (State.variables.uniqueTimeline === true) {
+        table_data.push({Category: "Unique Timeline", Outcome: State.variables.AlLierTimeline});
+    }
+
+    let table = document.getElementById("report-table");
+
+    if (table && table_data.length > 0) {  // Ensure the table exists
+        let data = Object.keys(table_data[0]);
+        generateReportHead(table, data);
+        generateReport(table, table_data);
+    }
+});
+<</script>>
+<<nobr>>
 <<if $MistakesMade === true>>
 	<<print "Across all your attempts of the first minigame you made " + $firstGameFailCount + " mistakes">>
 	<<print "Across all your attempts of the second minigame you made " + $secondGameFailCount + " mistakes">>
@@ -612,19 +729,27 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 <</if>>
 
 <<if $endingPoints === true>>
-	<<print "By the end of the game, you had " + $points + " points.">>
+	<<print "\n\nBy the end of the game, you had " + $points + " points.">>
 <</if>>
 
 <<if $uniqueTimeline === true>>
 	<<if $AlLierTimeline === true>>
-    	<<print "You were on a unique timeline during the game. During the leadership challenge you picked an option that was just as good as the correct one. Since your answer was also very good, this put you on what we call the 'Al Lier Timeline', where you are approached by Al Lier to see if you will give into any temptations to cheat or be dishonest. If you had given the other correct answer you would have gone straight to the end. If you had chosen a completely incorrect answer you would have simply restarted. You wouldn't have met Al Lier in either of these scenarios.">>
+    	<<print "\n\nYou were on a unique timeline during the game. During the leadership challenge you picked an option that was just as good as the correct one. Since your answer was also very good, this put you on what we call the 'Al Lier Timeline', where you are approached by Al Lier to see if you will give into any temptations to cheat or be dishonest. If you had given the other correct answer you would have gone straight to the end. If you had chosen a completely incorrect answer you would have simply restarted. You wouldn't have met Al Lier in either of these scenarios.">>
 	<<else>>
-    <<print "During this game, you were not a unique timeline. We won't tell you what happens in the unique timeline or how to get to it as we hope you will replay this game and explore for yourself.">>
+    <<print "\n\nDuring this game, you were not a unique timeline. We won't tell you what happens in the unique timeline or how to get to it as we hope you will replay this game and explore for yourself.">>
     <</if>>
 <</if>>
-
-<<link "Go back and generate new report" "Exit">> <</link
+<</nobr>>
+<<link "Go back and generate new report" "Exit">> <</link>>
 <<link "Go to Starting Page" "Starting Page">> <</link>>
+
+<<button "Print">>
+  <<script>> 
+  	  UIBar.stow();
+      window.print();
+      UIBar.unstow();
+  <</script>>
+<</button>>
 
 
 :: Play the game [Bridge-Scenario] {"position":"600,1100","size":"100,100"}
@@ -635,6 +760,10 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
 	<<set $savedPosition = passage()>>
     <<goto "Starting Page">>
 <</button>>
+<<set $firstGameFailCount = 0>>
+<<set $secondGameFailCount = 0>>
+<<set $thirdGameFailCount = 0>>
+
 
 
 :: Rigged First Answer Check [Al-Lier] {"position":"1225,1800","size":"100,100"}
@@ -964,7 +1093,9 @@ Greetings player! Would you like to start the game?
     
 How to play: <<link "Instructions" "Instructions">> <</link>>
 
-Exit game: <<link "Exit" "Exit">> <</link>>
+Q&A: <<link "Q&A" "Interactive Q&A">> <</link>>
+
+Exit: <<link "Exit Game" "Close Tab">> <</link>>
 
 
 
@@ -1130,7 +1261,6 @@ Exit game: <<link "Exit" "Exit">> <</link>>
 Welcome to the Leadership Trait Minigame! In this game you will be given a list of traits and will have to determine which two traits are the most necessary to have as a leader.
 
 <<link "Start Game" "First Trait Matching Checklist">> <</link>>
-<<set $firstGameFailCount = 0>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
@@ -1140,3 +1270,101 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
 
 :: StoryScript [script]
 Config.history.controls = false;
+
+
+
+:: StoryStylesheet [stylesheet]
+/* General styling for the carnival theme */
+body {
+    background-color: #ffcc00; /* Bright carnival yellow */
+    font-family: 'Baloo 2', cursive;
+    color: #4a1a0a; /* Deep red for contrast */
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Adding a fun carnival-style border to the game container */
+#passages {
+    background: #fff8dc;
+    border: 10px solid #3a1db1;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: auto;
+    max-width: 800px;
+    position: relative;
+}
+
+/* Title styling */
+h1, h2, h3 {
+    font-family: 'Luckiest Guy', cursive;
+    color: #d72638;
+    text-shadow: 2px 2px #fbb13c;
+}
+
+/* Button styling for a carnival ticket feel */
+#passages button {
+    background: linear-gradient(to bottom, #fbb13c 0%, #3a1db1 100%);
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #4a1a0a;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+#passages button:hover {
+    transform: scale(1.1);
+}
+
+#passage-interactive-qa input[type="text"]{
+	color: black;
+  	background-color: white;
+}
+
+
+.phone-gif {
+  	float: left;
+    left: 0px;  /* Moves it to the left */
+    width: 200px; /* Resize */
+    height: 200px;
+  	margin: 0px;
+  	padding: 0px;
+}
+
+
+
+table td:nth-child(2) {
+    text-align: center;  /* Centers the text in the second column */
+}
+
+/* Link styling */
+a {
+    color: #3a1db1;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover {
+    color: #4a1a0a;
+    text-decoration: underline;
+}
+
+/* Adding a playful background effect */
+@keyframes lights {
+    0% { background-color: #ffcc00; }
+    50% { background-color: #fbb13c; }
+    100% { background-color: #ffcc00; }
+}
+body {
+    animation: lights 3s infinite alternate;
+}
+
+/* Adding image styles for carnival scenes */
+.passage-image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    margin: 15px 0;
+}
