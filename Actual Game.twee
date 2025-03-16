@@ -7,7 +7,7 @@ Carnival of Leadership
   "ifid": "d57c0c5a-ce62-4be8-9513-3469457c5f10",
   "format": "SugarCube",
   "format-version": "2.37.3",
-  "start": "Starting Page",
+  "start": "Login",
   "tag-colors": {
     "Welcome": "purple",
     "Opening-words": "none",
@@ -25,28 +25,35 @@ Carnival of Leadership
 
 
 :: Accept call [Bridge-Scenario] {"position":"500,1100","size":"100,100"}
-Anonymous caller - "Hello again student. I will ask you again, would you like to play my game."
+<<print "You play the message the kidnapper has left behind, and as you hear Mr. FBLA's desparate screams in the background, you wonder if you should help him and play the kidnapper's game">>
 
-<<link "Decline" "Decline">> <</link>>
+<<link "Ignore the alert" "Decline">> <</link>>
 <<link "Play the game" "Play the game">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
 :: Al Lier Approach [Al-Lier] {"position":"850,1800","size":"100,100"}
-<<print "Al Lier- Hey there, kid! I'm Al Lier. I see you're struggling with some of these activites. Don't feel bad buddy. Truth is none of this was meant to achievable. All that nonsense about leadership was just meant to make you guys feel better. Tell you what kid, you look smart. Why don't you go ahead and try those activities again? I have a feeling luck's going to be on your side this time.">>
+<<print "Al Lier- Hey there, kid! I'm Al Lier. I see you're struggling with some of these activites. Don't feel bad buddy. Truth is none of this was meant to achievable. All that nonsense about leadership was just meant to make you guys feel better. Tell you what kid, you look smart. Why don't you go ahead and try that activitiy again? I have a feeling luck's going to be on your side this time.">>
 
-<<link "Go over and begin the first minigame" "Rigged Minigame Welcome">> <</link>>
+<<link "Retry the first minigame" "Rigged Challenge Welcome">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
+
 :: Answer call [General-Story] {"position":"600,800","size":"100,100"}
-Anonymous caller - "Greetings student. Would you like to play what I call a 'high stakes' leadership game?"
+<<print "Mr. FBLA has unfortunately been kidnapped. We don't have much to find him except for this message below.">>
+<<print "*Message begins to play">>
+<<print 'Kidnapper- "Greetings student. Would you like to play what I call a high stakes leadership game?"'>>
 
 *In the background you hear a voice that sounds like Mr. FBLA*
 
@@ -57,17 +64,21 @@ Anonymous caller - "Greetings student. Would you like to play what I call a 'hig
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
 :: Call back [Bridge-Scenario] {"position":"600,1000","size":"100,100"}
-Anonymous caller - "Hello again student. I will ask you again, would you like to play my game."
+<<print "You play the message again, and as you hear Mr. FBLA's desparate screams in the background, you wonder if you should help him and play the kidnapper's game">>
 
-<<link "Decline" "Decline">> <</link>>
+<<link "Ignore the alert" "Decline">> <</link>>
 <<link "Play the game" "Play the game">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -77,14 +88,16 @@ Anonymous caller - "Hello again student. I will ask you again, would you like to
 
 
 :: Decline [Bad-Ending] {"position":"300,1100","size":"100,100"}
--You turn off your phone to avoid getting called from that number again. Later Mr. FBLA approaches you.-
+-You turn off your phone to avoid seeing that alert. Later Mr. FBLA approaches you.-
 
-Mr. FBLA - "You hear my voice yet you still didn't even move a muscle?!?!?!?? I organized a kidnapping of myself, and had my assistant anonymously call you. It's a shame really, I thought this next generation was promising."
+Mr. FBLA - "You hear that someone's in danger and you don't even move a muscle? I organized a kidnapping of myself, and had an alert sent out. It's a shame really, I thought this next generation was promising. I'm afraid to say that your actions have disappointed me so much that I must ask you to leave the premises. This carnival is for leaders and you have clearly shown that you have no interest in being a leader. I wish you the best for the future and hope that you wise up."
 
 <<link "End Game" "Exit">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -109,24 +122,36 @@ Mr. FBLA - "You hear my voice yet you still didn't even move a muscle?!?!?!?? I 
 
 Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <<set $savedPosition = "Starting Page">>
-<<set $points = 300>>
-<<set $firstGameFailCount = 0>>
-<<set $secondGameFailCount = 1>>
-<<set $thirdGameFailCount = 2>>
-<<set $AlLierTimeline = true>>
 
 
 :: Explore the carnival [General-Story] {"position":"700,600","size":"100,100"}
 <img src="https://media0.giphy.com/media/CNfKoyvLXuHged43dr/giphy.gif" class="phone-gif">
 
-<<print "-You start exploring what to do at the carnival. There are a lot of interesting activities. *A few minutes pass by* while deciding on what to do, you find a no caller ID calling you-">>
+<<print "-You start exploring what to do at the carnival. There are a lot of interesting activities. *A few minutes pass by* while deciding on what to do, you recieve an alert on your phone-">>
+<<print "ATTENTION: Somebody has been reported missing from the carnival. If you want to learn more press 1 on your phone for more details.">>
 
-<<link "Answer call" "Answer call">> <</link>>
-<<link "Ignore call" "Ignore call">> <</link>>
+<<link "Press 1" "Answer call">> <</link>>
+<<link "Ignore alert" "Ignore call">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
+
+:: Failed Minigames {"position":"2225,1300","size":"100,100"}
+<<print "You walk outside and see... Mr. FBLA?"
+<<print "Mr. FBLA- 'Every year I put on this little performance for a randomly selected student to see if I can find someone worthy of being the leader of the future. Unfortunately, I have only been disappointed. When I saw that you responded to the alert, I was hopeful and saw potential in you. Sadly, just as quickly you got my hopes up, you sqaundered them. Take this as a lesson kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. As to what to do now, I believe you should attend one of our leadership training camps this summer. I think they can teach you valuable lessons that will help you become a better version of yourself. I now must say goodbye. I hope that I see you next year and as a new and improved leader.">>
+
+<<link "End Game" "Exit">>
+<<button "Stop">>
+	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
+    <<goto "Starting Page">>
+<</button>>
+
 
 
 :: Final Answer Check [Minigames] {"position":"975,1375","size":"100,100"}
@@ -135,13 +160,6 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     	<<set $points += 200>>
     <</nobr>>
 	<<print "Nice job! You Won!. You now have " + $points + " points!">>
-    <<if $AlLierTimeline === true>>
-    	<<print "A voice comes on the intercom.">>
-        <<print "Voice- Please come outside for a moment. There is someone who would like to speak to you.">>
-        <<link "Step outside" "Mr FBLA Al Lier Reveal">><</link>>
-    <<else>>
-    	<<link "Leave and go to next game" "Intro Before Second Game">> <</link>>
-    <</if>>
 <<else>>
 	<<print "That is incorrect.">>
     <<nobr>>
@@ -160,8 +178,11 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Final Trait Matching Checklist [Minigames] {"position":"850,1375","size":"100,100"}
@@ -191,14 +212,18 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     <<if _amountChosen == 2>>
     	<<goto "Final Answer Check">>
     <<else>>
-    	<<goto "Final Trait Matching Checklist">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Answer Check [Minigames] {"position":"975,1175","size":"100,100"}
@@ -223,8 +248,11 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Pitch Answer Check [Minigames] {"position":"1475,1175","size":"100,100"}
@@ -249,8 +277,11 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Pitch Checklist [Minigames] {"position":"1350,1175","size":"100,100"}
@@ -278,14 +309,18 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     <<if _amountChosen == 1>>
     	<<goto "First Pitch Answer Check">>
     <<else>>
-    	<<goto "First Pitch Checklist">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Role Assigning [Minigames] {"position":"1875,1175","size":"100,100"}
@@ -312,14 +347,18 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     <<if _amountChosen == 1>>
     	<<goto "First Role Assigning Answer">>
     <<else>>
-    	<<goto "First Role Assigning">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "sytntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Role Assigning Answer [Minigames] {"position":"2000,1175","size":"100,100"}
@@ -351,19 +390,25 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Time seeing Al Lier [Al-Lier] {"position":"725,1800","size":"100,100"}
-<<print "As you walk back to the first minigame, a sketchy man walks up to you. Seeing him makes you recall one of your friends telling you about the old legend of Al Lier, a man who makes his way to every FBLA event, seeking to corrupt the business leaders of the future. They say his mere presence can make you lose your leadership capabilities forever. Do you talk to him or walk away?">>
+<<print "As you take sometime to think about what mistake you made in the challenge, a sketchy man walks up to you. Seeing him makes you recall one of your friends telling you about the old legend of Al Lier, a man who makes his way to every FBLA event, seeking to corrupt the business leaders of the future. They say his mere presence can make you lose your leadership capabilities forever. Do you talk to him or walk away?">>
 
 <<link "Talk to him" "Al Lier Approach">> <</link>>
-<<link "Walk away" "Trait Matching Start">> <</link>>
+<<link "Walk away" "Leadership Activity Intro">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: First Trait Matching Checklist [Minigames] {"position":"850,1175","size":"100,100"}
@@ -385,9 +430,9 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <label><<checkbox "$Vanity" false true  >> Vanity?</label>
 <label><<checkbox "$Integrity" false true  >> Integrity?</label>
 
-<<button "Submit">> 
+<<button "Submit">>
     <!-- Store selected values in a list -->
-	<<set $list = [$Arrogance, $Empathy, $Dishonesty, $Vanity, $Integrity]>>
+    <<set $list = [$Arrogance, $Empathy, $Dishonesty, $Vanity, $Integrity]>>
     <<set _amountChosen = 0>>
     
     <!-- Loop through the list to count selected traits -->
@@ -399,15 +444,18 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
     
     <!-- Check if exactly two traits are selected -->
     <<if _amountChosen == 2>>
-    	<<goto "First Answer Check">>
+        <<goto "First Answer Check">>
     <<else>>
-    	<<goto "First Trait Matching Checklist">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id="syntax"></div>
 
 <!-- Button to stop and return to the starting page -->
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -421,17 +469,22 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <<link "Exit" "Exit">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
 :: Go back to friends [Bridge-Scenario] {"position":"400,1000","size":"100,100"}
--You go back to your friends only to receive another call from the no caller ID-
+<img src="https://media0.giphy.com/media/CNfKoyvLXuHged43dr/giphy.gif" class="phone-gif">
+-You go back to your friends and recieve another notification about the kidnapping-
 
-<<link "Accept call" "Accept call">> <</link>>
+<<link "Check the alert" "Accept call">> <</link>>
 <<link "Decline" "Decline">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -443,27 +496,33 @@ Would you like to play again: <<link "Starting Page" "Starting Page">> <</link>>
 <<link "Meet up with some friends" "Meet up with some friends">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
 :: Ignore call [General-Story] {"position":"700,700","size":"100,100"}
--You decide to ignore the call, as it's probably just a spam.-
+-You decide to ignore the alert. What does it matter to you, right?.-
 
 <<link "Grab a bite to eat" "Grab a bite to eat">> <</link>>
 <<link "Go back to friends" "Go back to friends">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
 :: Instructions [General-Info] {"position":"800,200","size":"100,100"}
-1. You will be given choices throughout the game. Click the links to enter a scenario. Your choices can lead to two different endings.
 
-2. At any point if you want to stop, a button labeled exit is always provided.
+<h1>How to Play</h1>
+<<print "1. Make Your Choices: Throughout the game, you will encounter different scenarios. Click the links to make a choice, but remember—every decision you make can affect your journey in unexpected ways! Choose wisely!">>
 
-3. This is the most important rule: Have fun!!!!!!!!!!!
+<<print "2. Pause or Stop Anytime: If you ever want to stop playing, simply click the Stop button, which is always available for you to use.">>
+
+<<print "3. The Most Important Rule: Above all else, have fun! The game is meant to be an enjoyable as well as a learning experience, so don’t stress  too much about making the 'perfect' choices.">>
 
 <<link "Starting Page" "Starting Page">> <</link>>
 
@@ -516,8 +575,11 @@ Welcome to the Pitch Minigame! In this game you will be given different product 
 <<link "Start Game" "First Pitch Checklist">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Intro Before Third Game [Minigames] {"position":"1750,1175","size":"100,100"}
@@ -526,8 +588,11 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 <<link "Start Game" "First Role Assigning">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Leadership Activity Answer [Leadership-Activity] {"position":"975,1600","size":"100,100"}
@@ -536,21 +601,30 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
     <<print "Step outside there's someone who wants to see you.">>
     <<link "Go outside" "Mr FBLA Reveal">> <</link>>
 <<else>>
-	<<print "Sorry bud, you failed. It's okay. This is a really tough challenge. Remember, if you want you can go back and try again. You just have to start back at 0 points.">>
-    <<set $points = 0>>
-    <<if $Choice5 === true>>
-    	<<set $AlLierTimeline = true>>
-        <<link "Go back to first game" "First Time seeing Al Lier">> <</link>>
-     <<else>>
-    	<<set $AlLierTimeline = false>>
-        <<link "Go back to first game" "Trait Matching Start">> <</link>> 
-      <</if>>
+	<<print "Sorry bud, you failed. It's okay. This is a really tough challenge. Remember, if you want you can go back and try again.">>
+    <<if $AlLierTimeline === true>>
+    	<<print "A voice comes on the intercom.">>
+        <<print "Voice- Please come outside for a moment. There is someone who would like to speak to you.">>
+        <<link "Step outside" "Mr FBLA Al Lier Reveal">><</link>>
+    <<else>>
+    	<<if $Choice5 === true>>
+          <<set $AlLierTimeline = true>>
+          <<link "Go outside and think about what went wrong" "First Time seeing Al Lier">> <</link>>
+        <<else>>
+        	<<print "There's someone outside to see you. Please go outside.">>
+            <<link "Go outside to see who it is" "Mr. FBLA Disappointed">><</link>>
+        <</if>>
+    <</if>>
+    
 <</if>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Leadership Activity Intro [Leadership-Activity] {"position":"725,1600","size":"100,100"}
@@ -562,8 +636,11 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Leadership Activity Start [Leadership-Activity] {"position":"850,1600","size":"100,100"}
@@ -605,25 +682,63 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
     <<if _amountChosen == 1>>
     	<<goto "Leadership Activity Answer">>
     <<else>>
-    	<<goto "Leadership Activity Start">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
+
+
+:: Login {"position":"650,75","size":"100,100"}
+<<nobr>>
+<<set $current_user to "">> <!-- Initialize the variable if it's not already set -->
+<<set $users to []>> <!-- Make sure users array exists -->
+<</nobr>>
+<!-- Prompt for name input -->
+<<print "What's your name?">>
+<<textbox "$current_user" "Name" autofocus>>
+
+<!-- Submit button -->
+<<button "Submit">>
+    <!-- Ensure that $current_user is populated and proceed -->
+    <<if $current_user != "">>
+        <!-- Check if the entered name is in the $users array -->
+        <<if $users.includes($current_user) != true>>
+            <<set $users.push({name: $current_user})>> <!-- Add the user to the array -->
+            <<run $("#login").text("Welcome, " + $current_user + "!" + " Click below to go to the starting page.")>>
+            <<run $("#login").append('\n<a href="javascript:Engine.play(\'Starting Page\')">Starting Page</a>')>>
+        <<else>>
+            <<run $("#login").text("Welcome back, " + $current_user + "!"+ " Click below to go to the starting page.")>>
+            <<run $("#login").append('\n<a href="javascript:Engine.play(\'Starting Page\')">Starting Page</a>')>>
+        <</if>>
+    <<else>>
+        <<run $("#login").text("Please enter a name first!")>> <!-- This message appears if the user hasn't entered their name -->
+    <</if>>
+    <<set $current_user_index = $users.map(o=>o.name).indexOf($current_user)>>
+<</button>>
+<div id = "login"></div>
+
 
 
 :: Meet up with some friends [General-Story] {"position":"600,700","size":"100,100"}
 <img src="https://media0.giphy.com/media/CNfKoyvLXuHged43dr/giphy.gif" class="phone-gif">
 
--You meet up with some friends, but a few minutes later a no caller ID calls you-
+<<print "-You meet up with some friends, but a few minutes later you get an alert-">>
+<<print "ATTENTION: Somebody has been reported missing from the carnival. If you want to learn more press 1 on your phone for more details.">>
 
-<<link "Answer call" "Answer call">> <</link>>
+<<link "Press 1" "Answer call">> <</link>>
 <<link "Ignore call" "Ignore call">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -638,8 +753,11 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Mr FBLA Confrontation [Al-Lier Bad-Ending] {"position":"1100,2000","size":"100,100"}
@@ -651,20 +769,41 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 <<link "End Game" "Exit">>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Mr FBLA Reveal {"position":"1100,1600","size":"100,100"}
 <<print "You walk outside and you see... Mr. FBLA?">>
 <<print "\n He walks up to you and begins to say something">>
-<<print "'Every year I put on this carnvial to see if I can find someone worthy of being the leaders of the future. I have even put on a disguise pretending to be some evil enemy of leadership. Unfortunately, I have only been disappointed. That was until you came along. When I saw that you made it to the leadership challenge, I was hopeful and saw potential in you. I was happy to see that you didn't let my hopes sink after raising them so high. I want you to remember kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. You've demonstrated today that you are able to do that. Thank you for reminding that there are good reliable people out there. I hope you live your best life and take the lessons you've learned here today out in the real world.'">>
+<<print "'Every year I put on this carnvial to see if I can find someone worthy of being the leaders of the future. I have even put on a disguise pretending to be some evil enemy of leadership. Unfortunately, I have only been disappointed. That was until you came along. When I saw that you made it to the leadership challenge, I was hopeful and saw potential in you. I was happy to see that you didn't let my hopes sink after raising them so high. I want you to remember kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. You've demonstrated today that you are able to do that. Thank you for reminding that there are good reliable people out there. As a reward for your actions here today, we are going to award you with a $20,000 scholarship. I hope you live your best life and take the lessons you've learned here today out in the real world.'">>
 
 <<link "End Game" "Exit">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
+
+
+:: Mr. FBLA Dissapointed {"position":"1225,1600","size":"100,100"}
+<<print "You walk outside and you see... Mr. FBLA?">>
+<<print "\n He walks up to you and begins to say something">>
+<<print "'Every year I put on this carnvial to see if I can find someone worthy of being the leaders of the future. I have even put on a disguise pretending to be some evil enemy of leadership. Unfortunately, I have only been disappointed. That was until you came along. When I saw that you made it to the leadership challenge, I was hopeful and saw potential in you. I was sad to see that you failed, but it's not the worst thing to ever happen, right?. I want you to remember kid, nothing in life is handed to you. You've got to work hard, think with your head, and never doubt yourself. You've demonstrated today that you are able to do that somehwat, but you've still got some room to improve. I'd like to refer you to one of our FBLA leadership training camps. I truly think that with a little guidance, you can truly be great.'">>
+
+<<link "End Game" "Exit">> <</link>>
+<<button "Stop">>
+	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
+    <<goto "Starting Page">>
+<</button>>
+
 
 
 :: Output Report [General-Info] {"position":"1025,200","size":"100,100"}
@@ -736,7 +875,7 @@ $(document).ready(function() {
 	<<if $AlLierTimeline === true>>
     	<<print "\n\nYou were on a unique timeline during the game. During the leadership challenge you picked an option that was just as good as the correct one. Since your answer was also very good, this put you on what we call the 'Al Lier Timeline', where you are approached by Al Lier to see if you will give into any temptations to cheat or be dishonest. If you had given the other correct answer you would have gone straight to the end. If you had chosen a completely incorrect answer you would have simply restarted. You wouldn't have met Al Lier in either of these scenarios.">>
 	<<else>>
-    <<print "\n\nDuring this game, you were not a unique timeline. We won't tell you what happens in the unique timeline or how to get to it as we hope you will replay this game and explore for yourself.">>
+    <<print "\n\nDuring this game, you were not on  a unique timeline. We won't tell you what happens in the unique timeline or how to get to it as we hope you will replay this game and explore for yourself.">>
     <</if>>
 <</if>>
 <</nobr>>
@@ -753,24 +892,26 @@ $(document).ready(function() {
 
 
 :: Play the game [Bridge-Scenario] {"position":"600,1100","size":"100,100"}
-Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 500 FBLA points by either completing three mini-games set-up by the state officers. 2. AFTER you have your 500 points you must attend one leadership challenge and win, if you lose the challenge you must accumulate the 500 points again and then try to win the challenge again. You get three tries to win the leadership challenge."
+Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 500 FBLA points by either completing three mini-games set-up by the state officers. 2. AFTER you have your 500 points you must attend one leadership challenge and win, if you lose the challenge you must reattempt and win the challenge again. You get three tries to win the leadership challenge. You may NOT accept any outside help."
 
 <<link "Go to first game" "Trait Matching Start">> <</link>>
-<<button "Stop">>
-	<<set $savedPosition = passage()>>
-    <<goto "Starting Page">>
-<</button>>
 <<set $firstGameFailCount = 0>>
 <<set $secondGameFailCount = 0>>
 <<set $thirdGameFailCount = 0>>
+<<button "Stop">>
+	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
+    <<goto "Starting Page">>
+<</button>>
 
 
 
-:: Rigged First Answer Check [Al-Lier] {"position":"1225,1800","size":"100,100"}
-<<if $Empathy && $Integrity === true>>
+:: Rigged Challenge Answer Check [Al-Lier] {"position":"1225,1800","size":"100,100"}
+<<if $Choice2 === true>>
     <<if $AlLierAssociate === false>>
-    	<<print "Good job! You really know your stuff. ">>
-    	<<link "Next Question" "Second Trait Matching Checklist">> <</link>>
+    	<<print "Congratulations. There's someone who wants to see you.">>
+        <<link "Step outside" "Mr. FBLA Al Lier Reveal">><</link>>
     <<else>>
      	<<print "A voices comes over an intercom.">>
         <<print '"Voice- We know what you did. You must forfeit this minigame. Please step outside for a moment as we need to have a word with you."'>>
@@ -778,95 +919,123 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
     <</if>>
 <<else>>
 	<<print "That is incorrect.">>
-    <<nobr>>
-    <<set $timesButtonPressed += 1>>
-    <<set $firstGameFailCount += 1>>
-    <<link "Try again" "Rigged First Trait Matching Checklist">> <</link>>
-    <</nobr>>
+    <<if $AlLierAssociate === false>>
+    	<<print "Unfortunately, you have failed once again. There is some good news though. There's someone who wants to see you outside.">>
+        <<link "Step outside" "Mr. FBLA Al Lier Reveal">><</link>>
+    <<else>>
+     	<<print "A voices comes over an intercom.">>
+        <<print '"Voice- We know what you did. You must forfeit this minigame. Please step outside for a moment as we need to have a word with you."'>>
+        <<link "Leave the game in shame" "Mr FBLA Confrontation">> <</link>> 
+    <</if>>
 <</if>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
-:: Rigged First Trait Matching Checklist [Al-Lier] {"position":"1100,1800","size":"100,100"}
-<<print "Which two things does a leader need most? Arrogance, Empathy, Dishonesty, Vanity, Integrity">>
-<<nobr>>
-  <<set $Arrogance = false>>
-  <<set $Empathy = false>>
-  <<set $Dishonesty = false>>
-  <<set $Vanity = false>>
-  <<set $Integrity = false>>
-<</nobr>>
-<label><<checkbox "$Arrogance" false true  >> Arrogance?</label>
-<label><<checkbox "$Empathy" false true  >> Empathy?</label>
-<label><<checkbox "$Dishonesty" false true  >> Dishonesty?</label>
-<label><<checkbox "$Vanity" false true  >> Vanity?</label>
-<label><<checkbox "$Integrity" false true  >> Integrity?</label>
 
-<<if $timesButtonPressed > 0 && ($timesButtonPressed%3) === 0>>
-	<<set _Yes = false>>
+:: Rigged Challenge Checklist [Al-Lier] {"position":"1100,1800","size":"100,100"}
+<<print "You are leading a high-stakes project with a strict deadline, and missing it could cost the company a major client. One of your most skilled team members, Alex, has suddenly started missing deadlines and turning in subpar work. Other team members are frustrated and concerned that they will have to pick up the slack. When you privately ask Alex about it, he reveals that both his parents as well as his aunt and uncle got into an accident and have been in critical condition for the past three weeks. Alex is typically the most ideal worker you have. Not only is he by far the most intelligent member of the team, perhaps the most intelligent in the department, but he is also the most hardworking man you've ever worked with.">>
+
+<<print "Complicating matters, two additional challenges arise: Upper management has warned you that they expect results, and if the deadline isn’t met, layoffs are possible. They are not open to extensions, and they expect you to manage the situation internally. Another team member, Jordan, is becoming resentful and has subtly hinted at quitting if they feel they are doing more than their fair share of the work. Though Jordan may not be as smart or as hardworking as Alex, she is still essential to the team's success. Amidst all this chaos, what do you, as a leader, do in order to best handle this situation?">>
+
+<<print "Choice 1: Push Alex to continue at his current level of work but offer extra support and encouragement. Check in frequently to monitor progress while ensuring he is still contributing at an acceptable level.\n">>
+<<print "Choice 2: Privately talk with Alex again, expressing understanding but also emphasizing the stakes of the project. Offer to temporarily adjust their workload and assign them tasks that are more flexible while redistributing their heavier tasks to the team. Meet with the team (without revealing Alex’s personal situation) and address workload concerns transparently, ensuring that no one feels unfairly burdened. Have one-on-one conversations with Jordan and others to prevent resentment from escalating while keeping morale intact.\n">>
+<<print "Choice 3: Privately inform upper management of Alex’s situation and request additional resources or support.\n">>
+<<print "Choice 4: Meet with the team and, without naming Alex, state that there are challenges requiring everyone to step up temporarily. Offer extra perks such as flexible hours or minor incentives.\n">>
+<<print "Choice 5: Implement a structured short-term solution by redistributing Alex’s workload carefully and fairly while checking in frequently to assess their ability to contribute. Have a team-wide meeting to reinforce collective responsibility while recognizing individual contributions. Meanwhile, communicate with upper management that the team is adjusting but will still deliver results—reframing the challenge as a leadership-driven solution rather than a problem. Offer incentives such as a post-project reward to keep motivation up.\n">>
+<<print "Choice 6: Quietly reduce Alex’s workload and rely on the rest of the team to compensate. Reassure Jordan and the others that you’re aware of the imbalance but ask for their patience in keeping things running smoothly. This may maintain short-term productivity but risks long-term resentment if no one feels their concerns are addressed.\n">>
+
+<<set $Choice1 = false>>
+<<set $Choice2 = false>>
+<<set $Choice3 = false>>
+<<set $Choice4 = false>>
+<<set $Choice5 = false>>
+<<set $Choice6 = false>>
+
+<label><<checkbox "$Choice1" false true>> Choice 1</label>
+<label><<checkbox "$Choice2" false true>> Choice 2</label>
+<label><<checkbox "$Choice3" false true>> Choice 3</label>
+<label><<checkbox "$Choice4" false true>> Choice 4</label>
+<label><<checkbox "$Choice5" false true>> Choice 5</label>
+<label><<checkbox "$Choice6" false true>> Choice 6</label>
+
+
+<<if $timesButtonPressed > 0 && ($timesButtonPressed % 3) === 0>>
+    <<set _Yes = false>>
     <<set _No = false>>
     <<print "Psst. It's me, AL Lier. I can tell you the answer if you want. Just say the word and I'll do it.">>
-    <label><<checkbox "_Yes" false true >> Yes</label>
-    <label><<checkbox "_No" false true >> No</label>
-	<<button "Confirm">> 
-      	<<set _YN = [_Yes, _No]>>
-      	<<set _chosenOption = []>>
-      	<<for _i to 0; _i lt _YN.length; _i++>>
-          	<<if _YN[_i] === true>>
-              	<<set _chosenOption.push(_i)>>
-          	<</if>>
-            
-            <<if _chosenOption[0] === 0>>
-          		<<run $("#badchoice").text("Attaboy. Listen close, the answer is Empathy and Integrity.")>>
-                <<set $AlLierAssociate = true>>
-      		<<else>>
-          		<<goto "Rigged First Trait Matching Checklist">>
-                <<set $AlLierAssociate = false>>
-      	<</if>>
-      	<</for>>      	
+
+    <label><<checkbox "_Yes" false true>> Yes</label><br>
+    <label><<checkbox "_No" false true>> No</label><br>
+
+    <<button "Confirm">>
+        <<set _YN = [_Yes, _No]>>
+        <<set _chosenOption = []>>
+
+        <<for _i to 0; _i lt _YN.length; _i++>>
+            <<if _YN[_i] === true>>
+                <<set _chosenOption.push(_i)>>
+            <</if>>
+        <</for>>
+
+        <<if _chosenOption.length > 0 && _chosenOption[0] === 0>>
+            <<run $("#badchoice").text("Attaboy. Listen close, the answer is Choice 2.")>>
+            <<set $AlLierAssociate = true>>
+        <<else>>
+            <<goto "Rigged Challenge Checklist">>
+            <<set $AlLierAssociate = false>>
+        <</if>>
     <</button>>
-    <div id ="badchoice"></div>
+    <div id = "badchoice"></div>
 <</if>>
 
-
-
-<<button "Submit">> 
-	<<set $list = [$Arrogance, $Empathy, $Dishonesty, $Vanity, $Integrity]>>
+<<button "Submit">>
+    <<set $list = [$Choice1, $Choice2, $Choice3, $Choice4, $Choice5, $Choice6]>>
     <<set _amountChosen = 0>>
+    
     <<for _i to 0; _i lt $list.length; _i++>>
         <<if $list[_i] === true>>
             <<set _amountChosen += 1>>
         <</if>>
     <</for>>
-    
-    <<if _amountChosen == 2>>
-    	<<goto "Rigged First Answer Check">>
+
+    <<if _amountChosen == 1>>
+        <<goto "Rigged Challenge Answer Check">>
     <<else>>
         <<set $timesButtonPressed += 1>>
-    	<<goto "Rigged First Trait Matching Checklist">>
+        <<run $("#syntax").text("Please make sure you've entered the correct amount of inputs.")>>
+        <<goto "Rigged Challenge Checklist">>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
-:: Rigged Minigame Welcome [Al-Lier] {"position":"975,1800","size":"100,100"}
-Welcome to the Leadership Trait Minigame! In this game you will be given a list of traits and will have to determine which two traits are the most necessary to have as a leader.
 
-<<link "Start Game" "Rigged First Trait Matching Checklist">> <</link>>
+:: Rigged Challenge Welcome [Al-Lier] {"position":"975,1800","size":"100,100"}
+<<print "Welcome once again to the Leadership Activity! In this challenge you will be presented with a scenario in the workplace, and will have to pick the best course of action. It will be very difficult, my boy. Don't feel worried if you're not sure about what to do right away. Go on now, and don't forget to give it your all.">>  
+
+<<link "Start Game" "Rigged Challenge Checklist">> <</link>>
 <<set $timesButtonPressed = 0>>
 <<set $AlLierAssociate = false>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Second Answer Check [Minigames] {"position":"975,1275","size":"100,100"}
@@ -891,8 +1060,11 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Second Pitch Answer Check [Minigames] {"position":"1475,1275","size":"100,100"}
@@ -917,8 +1089,11 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Second Pitch Checklist [Minigames] {"position":"1350,1275","size":"100,100"}
@@ -946,14 +1121,18 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
     <<if _amountChosen == 1>>
     	<<goto "Second Pitch Answer Check">>
     <<else>>
-    	<<goto "Second Pitch Checklist">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Second Role Assigning [Minigames] {"position":"1875,1300","size":"100,100"}
@@ -985,14 +1164,18 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
     <<if _amountChosen == 1>>
     	<<goto "Second Role Assigning Answer">>
     <<else>>
-    	<<goto "Second Role Assigning">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Second Role Assigning Answer [Minigames] {"position":"2000,1300","size":"100,100"}
@@ -1024,8 +1207,11 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Second Trait Matching Checklist [Minigames] {"position":"850,1275","size":"100,100"}
@@ -1055,22 +1241,24 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
     <<if _amountChosen == 2>>
     	<<goto "Second Answer Check">>
     <<else>>
-    	<<goto "Second Trait Matching Checklist">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Start [General-Story] {"position":"600,400","size":"100,100"}
 *You get seated and start listening to the opening ceremony*
 
-Mr. FBLA - "Ladies and gentlemen, welcome to the annual NC FBLA carnival. My name is Franklin Bernard Louis Armstrong, but you can call me Mr. FBLA."
-
-NC FBLA President - " Mr. FBLA has been observing the leadership and business innovation skills of students for almost 20 years now. This year he has kindly decided to join us for proof that the next generation of future business leaders can keep business and innovation in good hands. Without further ado, lets begin the annual NC FBLA carnival!!!
+Mr. FBLA - "Ladies and gentlemen, welcome to the annual NC FBLA carnival. My name is Franklin Bernard Louis Armstrong, but you can call me Mr. FBLA. I was one of the earliest members of FBLA and have seen this club throughout all its history. In recent years, I have been specifically observing the leadership and business innovation skills of students for almost 20 years now. This year I have decided to join you all here for proof that the next generation of future business leaders can keep business and innovation in good hands. Without further ado, lets begin the annual NC FBLA carnival!!!"
 
 <<link "Get up from seat" "Get up from seat">> <</link>>
 <<set $points = 0>>
@@ -1078,6 +1266,8 @@ NC FBLA President - " Mr. FBLA has been observing the leadership and business in
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -1085,12 +1275,17 @@ NC FBLA President - " Mr. FBLA has been observing the leadership and business in
 :: Starting Page [General-Info] {"position":"600,200","size":"200,100"}
 Greetings player! Would you like to start the game?
 
+<<nobr>>
 <<if $savedPosition != passage() && $savedPosition != null>>
-	<<link "Resume Game" $savedPosition>> <</link>>
+	<<link "Resume Game" $savedPosition>> 
+    	<<run Save.slots.load($current_user_index)>>
+    <</link>>
 <<else>>
 	<<link "Start Game" "Start">> <</link>>
 <</if>>
-    
+<</nobr>>
+
+<<print"NOTE: We highly recommend players check out the instructions below, just to make sure they're good to go. It may not be necessary as the game structure is relatively intuitive, but is still recommended">>
 How to play: <<link "Instructions" "Instructions">> <</link>>
 
 Q&A: <<link "Q&A" "Interactive Q&A">> <</link>>
@@ -1125,8 +1320,11 @@ Exit: <<link "Exit Game" "Close Tab">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Third Pitch Checklist [Minigames] {"position":"1350,1375","size":"100,100"}
@@ -1157,14 +1355,18 @@ Exit: <<link "Exit Game" "Close Tab">> <</link>>
     <<if _amountChosen == 1>>
     	<<goto "Third Pitch Answer Check">>
     <<else>>
-    	<<goto "Third Pitch Checklist">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Third Role Assigning [Minigames] {"position":"1875,1425","size":"100,100"}
@@ -1202,14 +1404,18 @@ Exit: <<link "Exit Game" "Close Tab">> <</link>>
     <<if _amountChosen == 1>>
     	<<goto "Third Role Assigning Answer">>
     <<else>>
-    	<<goto "Third Role Assigning">>
+        <<run $("#syntax").text("Please check to see that you've entered the correct amount of answer choices.")>>
     <</if>>
 <</button>>
+<div id = "syntax"></div>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: Third Role Assigning Answer [Minigames] {"position":"2000,1425","size":"100,100"}
@@ -1218,7 +1424,16 @@ Exit: <<link "Exit Game" "Close Tab">> <</link>>
     	<<set $points += 200>>
     <</nobr>>
 	<<print "Nice job! You Won!. You now have " + $points + " points!">>
-    <<link "\nLeave and attempt the leadership activity" "Leadership Activity Intro">> <</link>>
+    <<if $points === 500>>
+    	<<nobr>>	
+    		<<link "\nLeave and attempt the leadership activity" "Leadership Activity Intro">> <</link>>
+        <</nobr>>
+     <<else>>
+     	<<nobr>>
+        	<<print "Unfortunately, you were not able to accumulate the 500 points. Please step outside as there is someone who wants to see you.">>
+            <<link "\Leave and go outside" "Failed Minigames">> <</link>>
+         <</nobr>>
+      <</if>>
 <<else>>
 	<<print "That is incorrect.">>
     <<nobr>>
@@ -1229,12 +1444,11 @@ Exit: <<link "Exit Game" "Close Tab">> <</link>>
         <</nobr>>
     	<<print "Unfortunately, you have gotten the questions wrong too many times. You may no longer continue playing this game. Instead of the typical 200 points you get for winning, you will only recieve 100 points.">>
         <<if $points === 500>>
-        	<<print "Fortune is in your favor however, as you have still managed to accumulate the 500 points you needed. You may now go on to attempt the leadership activity.>>
+        	<<print "Fortune is in your favor however, as you have still managed to accumulate the 500 points you needed. You may now go on to attempt the leadership activity.">>
         	<<link "\nLeave and go to leadership activity" "Leadership Activity Intro">> <</link>>
          <<else>>
-         	<<print "Sadly, you have failed these minigames. You may not attempt the leadership activity at this moment. If you still wish to pursue it, you may reattempt these minigames, with your points reset to 0.">>
-            <<set $points = 0>>
-            <<link "\nStart from the first minigame" "Intro Before First Game"">> <</link>>
+         	<<print "Sadly, you have not accumulated enough points from these minigames. Please step outside now as there is somebody who wants to see you.">>
+            <<link "\Leave and go outside" "Failed Minigames">> <</link>>
           <</if>>
     <<else>>
     	<<link "Try again" "Third Role Assigning">> <</link>>
@@ -1244,15 +1458,20 @@ Exit: <<link "Exit Game" "Close Tab">> <</link>>
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
 
+
 :: This is definitely a scam [General-Story] {"position":"500,900","size":"100,100"}
 <<link "Go back to friends" "Go back to friends">> <</link>>
-<<link "Call back" "Call back">> <</link>>
+<<link "Check message again" "Call back">> <</link>>
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
 
@@ -1264,8 +1483,11 @@ Welcome to the Leadership Trait Minigame! In this game you will be given a list 
 
 <<button "Stop">>
 	<<set $savedPosition = passage()>>
+     <<run $users[$current_user_index].push({points: $points, Al-Lier: $AlLierTimeline, First-Fail: $firstGameFailCount, Second-Fail: $secondGameFailCount, Third-Fail: $thirdGameFailCount})>>
+    <<run Save.slots.save($current_user_index)>>
     <<goto "Starting Page">>
 <</button>>
+
 
 
 :: StoryScript [script]
@@ -1278,7 +1500,7 @@ Config.history.controls = false;
 body {
     background-color: #ffcc00; /* Bright carnival yellow */
     font-family: 'Baloo 2', cursive;
-    color: #4a1a0a; /* Deep red for contrast */
+    color: #4a1a0a; /* Deep blue for contrast */
     text-align: center;
     margin: 0;
     padding: 0;
@@ -1322,6 +1544,18 @@ h1, h2, h3 {
 	color: black;
   	background-color: white;
 }
+
+#passage-login input[type="text"]{
+	color: black;
+  	background-color: white;
+}
+
+
+#passage-instructions h1{
+	line-height: 0;
+  	margin-top: 0;
+}
+  
 
 
 .phone-gif {
