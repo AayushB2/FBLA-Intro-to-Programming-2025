@@ -167,7 +167,8 @@ $(document).ready(function() {
 
 
 :: Close Tab {"position":"350,200","size":"100,100"}
-<<run close()>>
+<<run if (confirm("Are you sure you want to exit?")) { window.close(); } >>
+
 
 
 :: Decline [Bad-Ending] {"position":"300,1100","size":"100,100"}
