@@ -982,7 +982,7 @@ Welcome to the Role Assigning Minigame! In this game you must pick the best suit
 <</nobr>>
 <!-- Prompt for name input -->
 <<print "What's your name?">>
-<<textbox "$current_user" "Name" autofocus>>
+<<textbox "$current_user" "" autofocus>>
 
 <!-- Submit button -->
 <<button "Submit">>
@@ -1253,7 +1253,7 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
 <</nobr>>
 <!-- Prompt for name input -->
 <<print "What's your name?">>
-<<textbox "$current_user" "Name" autofocus>>
+<<textbox "$current_user" "" autofocus>>
 
 <!-- Submit button -->
 <<button "Submit">>
