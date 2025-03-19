@@ -1285,14 +1285,14 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
         <<link "Step outside" "Mr. FBLA Al Lier Reveal">><</link>>
     <<else>>
      	<<print "A voices comes over an intercom.">>
-        <<print '"Voice- We know what you did. You must forfeit this minigame. Please step outside for a moment as we need to have a word with you."'>>
+        <<print '"Voice- We know what you did. You must forfeit now. Please step outside for a moment as we need to have a word with you."'>>
         <<link "Leave the game in shame" "Mr FBLA Confrontation">> <</link>> 
     <</if>>
 <<else>>
 	<<print "That is incorrect.">>
     <<if $AlLierAssociate === false>>
     	<<print "Unfortunately, you have failed once again. There is some good news though. There's someone who wants to see you outside.">>
-        <<link "Step outside" "Mr. FBLA Al Lier Reveal">><</link>>
+        <<link "Step outside" "Mr FBLA Al Lier Reveal">><</link>>
     <<else>>
      	<<print "A voices comes over an intercom.">>
         <<print '"Voice- We know what you did. You must forfeit this minigame. Please step outside for a moment as we need to have a word with you."'>>
@@ -1413,6 +1413,7 @@ Anonymous caller - "Very good. I have two tasks for you: 1. You must accumulate 
 
 <<link "Start Game" "Rigged Challenge Checklist">> <</link>>
 <<set $timesButtonPressed = 0>>
+<<set $AlLierAssociate = false>>
 <<button "Stop">>
     <!-- Save the current position -->
     <<set $savedPosition = passage()>>
